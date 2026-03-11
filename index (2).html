@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Kinderclick Daycare</title>
+    <style>
+        :root {
+            --primary-pink: #fce4e6; /* Soft pink for background sides */
+            --accent-red: #df5867;   /* Deeper pink/red from logo */
+            --brand-gold: #c99a3c;   /* Gold from logo */
+            --text-main: #5a4b46;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-pink); /* Fills the sides */
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Header Styling */
+        header {
+            background: var(--white);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-bottom: 4px solid var(--brand-gold);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo-container img {
+            max-height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--accent-red);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--white);
+            box-shadow: 0 0 50px rgba(0,0,0,0.1); /* Soft shadow over the pink sides */
+            min-height: 100vh;
+        }
+
+        section {
+            padding: 4rem 3rem;
+        }
+
+        /* Decorative "Wave" separators */
+        .wave-top {
+            background: var(--primary-pink);
+            height: 50px;
+            width: 100%;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        h2 {
+            color: var(--accent-red);
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        h3 {
+            color: var(--brand-gold);
+            margin-bottom: 1rem;
+        }
+
+        /* Requirements List */
+        .req-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .req-card {
+            background: var(--primary-pink);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent-red);
+        }
+
+        /* Forms */
+        .enroll-flex {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .form-container {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .download-box {
+            flex: 1;
+            min-width: 250px;
+            background: #fff9f0;
+            padding: 2rem;
+            border: 2px dashed var(--brand-gold);
+            border-radius: 15px;
+            text-align: center;
+            align-self: start;
+        }
+
+        .form-group { margin-bottom: 1.2rem; }
+        
+        label { 
+            display: block; 
+            font-weight: bold; 
+            margin-bottom: 0.3rem;
+            color: var(--accent-red);
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--primary-pink);
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--brand-gold); }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent-red);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover { transform: scale(1.05); }
+
+        footer {
+            background: var(--accent-red);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            section { padding: 2rem 1.5rem; }
+            .container { margin: 0; box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Kinderclick Daycare Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#requirements">Rules</a></li>
+                <li><a href="#enroll">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="about">
+        <h2>Welcome to Kinderclick</h2>
+        <p style="text-align: center; font-size: 1.2rem;">
+            A place where every child is truly loved and cared for! [cite: 2] 
+            We provide a happy and calm environment where your child will grow and blossom. [cite: 3]
+        </p>
+        <div style="margin-top: 3rem; text-align: center;">
+            <p><strong>Provider:</strong> Breindy Friedman [cite: 34]</p>
+            <p><strong>Contact:</strong> | </p>
+        </div>
+    </section>
+
+    <div class="wave-top"></div>
+
+    <section id="requirements" style="background: var(--primary-pink);">
+        <h2>Program Rules & Requirements</h2>
+        <div class="req-grid">
+            <div class="req-card">
+                <h3>Ages</h3>
+                <p>We accept children ages 20 months to 3 years. [cite: 127]</p>
+            </div>
+            <div class="req-card">
+                <h3>Health</h3>
+                <p>Children must be fever-free for 24 hours before returning. [cite: 87] Vaccinations must be up to date; religious exemptions are not accepted. [cite: 98, 99]</p>
+            </div>
+            <div class="req-card">
+                <h3>Meals</h3>
+                <p>We serve nutritious breakfast (9:45 AM), snacks (11:45 AM), and lunch (1:45 PM). [cite: 50] No outside food is permitted. [cite: 55]</p>
+            </div>
+            <div class="req-card">
+                <h3>Naps</h3>
+                <p>Daily nap time is from 11:45 AM to 1:30 PM. [cite: 61] We currently only accommodate children who require a mid-day nap. [cite: 130]</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="enroll">
+        <h2>Enroll Your Child</h2>
+        <div class="enroll-flex">
+            <div class="form-container">
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label>Parent Name</label>
+                        <input type="text" id="pName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Child's Name</label>
+                        <input type="text" id="cName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Child's Date of Birth</label>
+                        <input type="date" id="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <button type="submit" class="btn">Send Request</button>
+                </form>
+            </div>
+
+            <div class="download-box">
+                <h3>Prefer Paper?</h3>
+                <p>Download our full policy handbook and signup form below.</p>
+                <br>
+                <a href="signup-form.pdf" class="btn" style="background: var(--brand-gold);">Download PDF</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 The Kinderclick Daycare. [cite: 36]</p>
+        <p><em>Looking forward to a great successful season! [cite: 35]</em></p>
+    </footer>
+</div>
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you! We have received your request and will contact you shortly.');
+        this.reset();
+    });
+</script>
+
+</body>
+</html>
