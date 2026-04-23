@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll Your Child | Kinderclick</title>
+    <style>
+        :root {
+            --primary-pink: #fce4e6;
+            --accent-red: #df5867;
+            --brand-gold: #c99a3c;
+            --deep-brown: #4a3f3b;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.85);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-pink);
+            color: var(--deep-brown);
+            line-height: 1.7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* --- DECORATIVE BACKGROUND --- */
+        .bg-ornament {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(60px);
+        }
+        .ornament-1 { width: 50vw; height: 50vw; background: var(--brand-gold); top: -10%; right: -10%; border-radius: 50%; }
+        .ornament-2 { width: 40vw; height: 40vw; background: var(--accent-red); bottom: -5%; left: -5%; border-radius: 50%; }
+
+        .card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(223, 88, 103, 0.15);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 { color: var(--accent-red); text-align: center; margin-bottom: 10px; font-size: 2.2rem; }
+        .subtitle { text-align: center; color: var(--brand-gold); margin-bottom: 30px; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* --- DOWNLOAD BOX --- */
+        .download-box {
+            background: #fffbf2;
+            border: 2px solid #f0e6d2;
+            padding: 1.5rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        .download-text h4 { color: var(--deep-brown); margin-bottom: 4px; }
+        .download-text p { font-size: 0.8rem; color: #777; }
+
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--accent-red); font-size: 0.85rem; }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary-pink);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: #fafafa;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--brand-gold);
+            background: white;
+        }
+
+        /* --- STYLED UPLOAD AREA --- */
+        .upload-container {
+            position: relative;
+            background: #fafafa;
+            border: 2px dashed var(--primary-pink);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .upload-container:hover {
+            border-color: var(--accent-red);
+            background: #fff5f6;
+        }
+        .upload-container i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--accent-red);
+        }
+        .upload-container p { font-size: 0.9rem; color: var(--deep-brown); }
+        .upload-container span { font-size: 0.75rem; color: #999; }
+        
+        #fileInput {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 1.2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(223, 88, 103, 0.2);
+        }
+
+        .btn-small {
+            background: var(--brand-gold);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            border-radius: 30px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn:hover { background: var(--brand-gold); transform: translateY(-2px); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        
+        #status { margin-top: 20px; text-align: center; font-weight: bold; padding: 10px; border-radius: 12px; font-size: 0.9rem; }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--deep-brown);
+            text-decoration: none;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-ornament ornament-1"></div>
+<div class="bg-ornament ornament-2"></div>
+
+<div class="card">
+    <h1>Enrollment Portal</h1>
+    <p class="subtitle">Complete your application below</p>
+    
+    <div class="download-box">
+        <div class="download-text">
+            <h4>1. Download Application</h4>
+            <p>Print and sign the policy handbook first.</p>
+        </div>
+        <a href="OCFS-LDSS-0792.pdf" class="btn-small">Download PDF</a>
+    </div>
+
+    <form id="enrollmentForm">
+        <label>2. Digital Registration Details</label>
+        <div class="form-group">
+            <input type="text" id="parentName" placeholder="Parent/Guardian Full Name" required>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <input type="text" id="childName" placeholder="Child's Name" required>
+            </div>
+            <div class="form-group">
+                <input type="date" id="childDob" required>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <input type="tel" id="phone" placeholder="Phone Number" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Email Address" required>
+            </div>
+        </div>
+
+        <label style="margin-top: 1rem;">3. Upload Signed Documents</label>
+        <div class="upload-container" id="dropZone">
+            <div id="fileInfo">
+                <p><strong>Click or Drag & Drop</strong></p>
+                <span>Upload your signed PDF or Photo here</span>
+            </div>
+            <input type="file" id="fileInput" accept=".pdf,image/*" required>
+        </div>
+        
+        <button type="submit" id="submitBtn" class="btn">Submit & Upload Enrollment</button>
+    </form>
+    
+    <div id="status"></div>
+    <a href="index.html" class="back-link">← Back to Homepage</a>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx3pAIXYkXNVANytpXfGrN6ALRuliQAyFrhnX6Y--jBqr1CVcocL7Z4B2r-tmSPe7hbHA/exec';
+    
+    // File input visual feedback
+    const fileInput = document.getElementById('fileInput');
+    const fileInfo = document.getElementById('fileInfo');
+
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            fileInfo.innerHTML = `<p style="color:var(--accent-red)"><strong>Selected:</strong> ${this.files[0].name}</p><span>Ready to upload</span>`;
+            document.getElementById('dropZone').style.borderColor = "var(--brand-gold)";
+        }
+    });
+
+    document.getElementById('enrollmentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const status = document.getElementById('status');
+        const file = fileInput.files[0];
+        
+        submitBtn.disabled = true;
+        status.innerText = "Processing enrollment and uploading file...";
+        status.style.color = "var(--brand-gold)";
+        status.style.background = "#fff9e6";
+
+        const reader = new FileReader();
+        reader.onload = function() {
+            const fileContent = reader.result;
+            const formData = new URLSearchParams();
+            
+            formData.append('fileContent', fileContent);
+            formData.append('filename', file.name);
+            formData.append('parentName', document.getElementById('parentName').value);
+            formData.append('childName', document.getElementById('childName').value);
+            formData.append('childDob', document.getElementById('childDob').value);
+            formData.append('phone', document.getElementById('phone').value);
+            formData.append('email', document.getElementById('email').value);
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors' 
+            })
+            .then(() => {
+                status.innerText = "Thank you! Application submitted successfully.";
+                status.style.color = "green";
+                status.style.background = "#e6ffed";
+                document.getElementById('enrollmentForm').reset();
+                fileInfo.innerHTML = `<p><strong>Click or Drag & Drop</strong></p><span>Upload your signed PDF or Photo here</span>`;
+                submitBtn.disabled = false;
+            })
+            .catch(err => {
+                status.innerText = "Something went wrong. Please try again.";
+                status.style.color = "red";
+                status.style.background = "#ffe6e6";
+                submitBtn.disabled = false;
+            });
+        };
+        reader.readAsDataURL(file);
+    });
+</script>
+
+</body>
+</html>
