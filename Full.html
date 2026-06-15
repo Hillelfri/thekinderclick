@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment Full | Kinderclick</title>
+    <style>
+        :root {
+            --primary-pink: #fce4e6;
+            --accent-red: #df5867;
+            --brand-gold: #c99a3c;
+            --deep-brown: #4a3f3b;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-pink);
+            color: var(--deep-brown);
+            line-height: 1.7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* --- DECORATIVE BACKGROUND --- */
+        .bg-ornament {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(60px);
+        }
+        .ornament-1 { width: 50vw; height: 50vw; background: var(--brand-gold); top: -10%; right: -10%; border-radius: 50%; }
+        .ornament-2 { width: 40vw; height: 40vw; background: var(--accent-red); bottom: -5%; left: -5%; border-radius: 50%; }
+
+        .card {
+            background: var(--white);
+            padding: 4rem 3rem;
+            border-radius: 40px;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(223, 88, 103, 0.15);
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        h1 { 
+            color: var(--accent-red); 
+            margin-bottom: 10px; 
+            font-size: 2.2rem; 
+        }
+        
+        .subtitle { 
+            color: var(--brand-gold); 
+            margin-bottom: 25px; 
+            font-weight: bold; 
+            font-size: 0.95rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+
+        p.message {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--deep-brown);
+        }
+
+        .btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            display: inline-block;
+            padding: 1.2rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(223, 88, 103, 0.2);
+        }
+
+        .btn:hover { 
+            background: var(--brand-gold); 
+            transform: translateY(-2px); 
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="bg-ornament ornament-1"></div>
+<div class="bg-ornament ornament-2"></div>
+
+<div class="card">
+    <h1>Enrollment is Full</h1>
+    <p class="subtitle">Thank you for your interest!</p>
+    
+    <p class="message">
+        We are currently at full capacity and do not have any open slots for the upcoming season. We are incredibly grateful for the overwhelming interest in The Kinderclick Daycare.
+    </p>
+    
+    <p style="font-size: 0.9rem; color: #777; margin-bottom: 2rem;">
+        Please check back later for future openings and updates.
+    </p>
+
+    <a href="index.html" class="btn">Return to Homepage</a>
+</div>
+
+</body>
+</html>
