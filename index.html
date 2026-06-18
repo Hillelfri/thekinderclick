@@ -58,7 +58,27 @@
             align-items: center;
         }
 
-        .logo-placeholder img { height: 60px; }
+        /* --- LOGO ANIMATION --- */
+        .logo-placeholder img { 
+            height: 60px; 
+            /* Applies the continuous floating animation */
+            animation: gentleFloat 4s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        /* Adds a playful little pop and tilt when hovered */
+        .logo-placeholder img:hover {
+            transform: scale(1.1) rotate(-5deg);
+            /* Pauses the float animation while hovered so the transform takes over */
+            animation-play-state: paused; 
+        }
+
+        /* Defines the floating movement */
+        @keyframes gentleFloat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
 
         nav ul {
             display: flex;
