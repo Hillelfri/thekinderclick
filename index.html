@@ -6,6 +6,52 @@
     <title>The Kinderclick Daycare | Where Every Child Blossoms</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
+		/* --- SITE LOADER STYLES --- */
+        #site-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-pink); /* Covers the screen in your primary brand color */
+            z-index: 99999; /* Keeps it above everything else */
+            transition: opacity 0.6s ease;
+        }
+
+        #loader-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 140px;
+            transform: translate(-50%, -50%);
+            /* Triggers the spin and fly animation */
+            animation: spinAndFly 2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        @keyframes spinAndFly {
+            0% {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(0deg);
+                height: 140px;
+            }
+            50% {
+                /* Completes the 360 circle in the center of the screen */
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(360deg);
+                height: 140px;
+                opacity: 1;
+            }
+            100% {
+                /* Flies to the top ribbon and shrinks to match the actual logo size */
+                top: 40px;
+                left: 10vw; /* Navigates towards the flexbox alignment of your header */
+                transform: translate(-50%, -50%) rotate(360deg);
+                height: 60px;
+                opacity: 0; /* Fades out smoothly as it lands */
+            }
+        }
         :root {
             --primary-pink: #fce4e6;
             --accent-red: #df5867;
@@ -171,6 +217,10 @@
     </style>
 </head>
 <body>
+	<!-- --- SITE PRELOADER --- -->
+    <div id="site-loader">
+        <img src="logo.png" alt="Kinderclick Loader" id="loader-logo">
+    </div>
 
     <div class="bg-ornament ornament-1"></div>
     <div class="bg-ornament ornament-2"></div>
@@ -269,5 +319,19 @@
     <footer>
         <p>&copy; 2026 The Kinderclick Daycare. <br>Looking forward to a great successful season!</p>
     </footer>
+	<script>
+        // Removes the preloader once the logo animation finishes
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('site-loader');
+                loader.style.opacity = '0'; // Fades out the pink background
+                
+                // Removes the element from the page completely so links remain clickable
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 600);
+            }, 1900); // Triggers right as the logo lands in the ribbon
+        });
+    </script>
 </body>
 </html>
