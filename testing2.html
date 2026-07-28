@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ateres Bnos Daycare Portal</title>
+<title>The Kinderclick Daycare Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -284,13 +284,13 @@ tr:last-child td{border-bottom:none}
 <!-- ═══════════════════════════════ LANDING ═══════════════════════════════ -->
 <div id="landing-screen">
   <div class="landing-inner">
-    <h1>Ateres Bnos Daycare</h1>
+    <h1>The Kinderclick Daycare</h1>
     <div class="landing-tag">Family Portal</div>
     <button class="landing-btn" onclick="showLogin()">Sign In to the Portal</button>
   </div>
   <div class="landing-mission">
     <h2>Our Mission</h2>
-    <p>At Ateres Bnos Daycare, we are dedicated to providing a warm, safe, and nurturing
+    <p>At The Kinderclick Daycare, we are dedicated to providing a warm, safe, and nurturing
     environment where every child is cherished. Through loving care, joyful learning, and
     individual attention, our program is designed to support each child's social, emotional,
     and cognitive development — laying a strong foundation for a lifetime of learning and good
@@ -302,8 +302,8 @@ tr:last-child td{border-bottom:none}
 <div id="login-screen">
   <div class="login-card">
     <div class="login-logo">
-      <img class="logo-img" src="assets/logo.png" alt="Ateres Bnos Daycare logo" />
-      <h1>Ateres Bnos Daycare</h1>
+      <img class="logo-img" src="assets/logo.png" alt="The Kinderclick Daycare logo" />
+      <h1>The Kinderclick Daycare</h1>
       <p>Family Portal — sign in to continue</p>
     </div>
     <label for="li-email">Email address</label>
@@ -325,7 +325,7 @@ tr:last-child td{border-bottom:none}
   <!-- Top bar -->
   <div class="topbar">
     <div class="topbar-left">
-      <div class="topbar-logo"><img class="topbar-logo-img" src="assets/logo.png" alt="Ateres Bnos Daycare logo" /> <span>Ateres Bnos</span> Daycare</div>
+      <div class="topbar-logo"><img class="topbar-logo-img" src="assets/logo.png" alt="The Kinderclick Daycare logo" /> <span>The Kinderclick</span> Daycare</div>
       <span class="role-badge" id="role-badge"></span>
     </div>
     <div class="topbar-right">
@@ -387,7 +387,7 @@ tr:last-child td{border-bottom:none}
       <!-- ─── ADMIN: DASHBOARD ─── -->
       <div class="page active" id="page-dashboard">
         <div class="page-header dash-header">
-          <div><h2>Dashboard</h2><p id="dash-sub">Overview of Ateres Bnos Daycare</p></div>
+          <div><h2>Dashboard</h2><p id="dash-sub">Overview of The Kinderclick Daycare</p></div>
           <label class="period-select-wrap">Period
             <select id="dashboard-period" class="period-select" onchange="setDashboardPeriod(this.value)"></select>
           </label>
@@ -538,7 +538,7 @@ tr:last-child td{border-bottom:none}
         <div class="card">
           <div class="card-title"><span class="ct-icon">💰</span> Rates by group</div>
           <table>
-            <thead><tr><th>Group</th><th>Ages</th><th>Schedule</th><th>Ateres Bnos Rate</th><th>DSS Rate</th></tr></thead>
+            <thead><tr><th>Group</th><th>Ages</th><th>Schedule</th><th>The Kinderclick Rate</th><th>DSS Rate</th></tr></thead>
             <tbody id="pricing-rows"></tbody>
           </table>
         </div>
@@ -601,7 +601,7 @@ tr:last-child td{border-bottom:none}
       <div class="page" id="page-parent-home">
         <div class="parent-hero" id="parent-hero">
           <h2 id="ph-greeting"></h2>
-          <p>Welcome to your Ateres Bnos Daycare family portal.</p>
+          <p>Welcome to your The Kinderclick Daycare family portal.</p>
           <div class="parent-balance">
             <div>
               <div class="pb-label">Current balance</div>
@@ -671,7 +671,7 @@ const GROUP_DEFS = [
   { slug:'preschool',  label:'Preschool',  color:'#8B5CF6' },
   { slug:'school-age', label:'School Age', color:'#0EA5E9' },
 ];
-// Per-group daily rates (whole dollars). These are the Ateres Bnos rates and are
+// Per-group daily rates (whole dollars). These are the The Kinderclick rates and are
 // the single source of truth for billing. They start at the historical defaults
 // and are overwritten from the database (the Pricing tab) on login by loadRates().
 const RATES = { 'preschool':{full:69,part:46}, 'school-age':{full:63,part:42} };
@@ -1040,7 +1040,7 @@ async function addNextPeriod(){
 }
 
 // ════════════════ RATES (Pricing tab) ════════════════
-// Load the Ateres Bnos and DSS rates from the database. The Ateres Bnos rates
+// Load the The Kinderclick and DSS rates from the database. The The Kinderclick rates
 // overwrite the in-memory RATES used for billing so the Pricing tab stays the
 // single source of truth; DSS rates are kept separately for display only.
 async function loadRates(){
@@ -1057,7 +1057,7 @@ async function loadRates(){
 }
 
 // Draw the Pricing tab rows from the current rates, each with an editable input
-// for the Ateres Bnos rate and the DSS rate.
+// for the The Kinderclick rate and the DSS rate.
 function renderPricing(){
   const tbody = document.getElementById('pricing-rows');
   if(!tbody) return;
@@ -1079,7 +1079,7 @@ function renderPricing(){
 }
 
 // Persist one edited rate. Updates local state immediately (so billing reflects a
-// changed Ateres Bnos rate right away) and saves to the database in the background.
+// changed The Kinderclick rate right away) and saves to the database in the background.
 async function saveRate(group, schedule, field, value){
   const amount = Math.max(0, Math.round(parseFloat(value) || 0));
   if(field === 'ateresRate'){
@@ -1189,7 +1189,7 @@ function childBillableOn(c, day){
 // The last calendar day of a period (school year): August 31 of the year after
 // its September start, matching how a period runs (Sept 1 startYear → Aug 31).
 function periodLastDay(startYear){ return (startYear + 1) + '-08-31'; }
-// The Ateres Bnos and DSS daily rates for a program group + schedule type
+// The The Kinderclick and DSS daily rates for a program group + schedule type
 // ('full' | 'part'), in whole dollars.
 function ateresRate(group, sched){ return (RATES[group] || {})[sched] || 0; }
 function dssRate(group, sched){ return dssRates.get(group + '|' + sched) || 0; }
@@ -1212,7 +1212,7 @@ function dayIsCcap(c, day){
   return day >= s && day <= e;
 }
 // The dollar value one child is billed for one scheduled day: the DSS rate when
-// the child is CCAP-approved on that day, otherwise the Ateres Bnos rate; nothing
+// the child is CCAP-approved on that day, otherwise the The Kinderclick rate; nothing
 // on closed/unset days. This is exactly what an absence on that day credits back.
 function childDayRate(c, day){
   const st = scheduleStatusFor(c.group, day);
@@ -1224,7 +1224,7 @@ function childDayRate(c, day){
 // and within the child's enrollment range). An optional `periodYear` restricts
 // the count to a single period (school year); null = every period. `ccapFull` and
 // `ccapPart` are the subsets of those days that fall in a CCAP approval window,
-// which are billed at the DSS rate rather than the Ateres Bnos rate.
+// which are billed at the DSS rate rather than the The Kinderclick rate.
 function childDayCounts(c, periodYear){
   let full = 0, part = 0, ccapFull = 0, ccapPart = 0;
   const prefix = c.group + '|';
@@ -1241,7 +1241,7 @@ function childDayCounts(c, periodYear){
 }
 // Tuition one child owes: their active scheduled days valued at the group rate,
 // optionally limited to a single period (school year). CCAP-approved days are
-// valued at the DSS rate; all other days at the Ateres Bnos rate.
+// valued at the DSS rate; all other days at the The Kinderclick rate.
 function childTuition(c, periodYear){
   const n = childDayCounts(c, periodYear);
   const af = ateresRate(c.group, 'full'), ap = ateresRate(c.group, 'part');
@@ -1318,7 +1318,7 @@ function scheduleStatusFor(group, day){
 }
 // Absence credit for a single day: the sum, over the absent children, of what
 // the schedule calendar billed each child on that date (DSS rate for a child
-// CCAP-approved that day, otherwise the Ateres Bnos rate). A child who was out on
+// CCAP-approved that day, otherwise the The Kinderclick rate). A child who was out on
 // a day their program is closed earns no credit, because nothing was charged.
 function absenceCredit(f, a){
   const names = a.childNames || [];
@@ -1857,7 +1857,7 @@ function drawContract(b, f, periodYear, logo){
   }
 
   b.textCenter(CX, y, 18, 'Enrollment Contract', { bold:true }); y += 15;
-  b.textCenter(CX, y, 11, 'Ateres Bnos Daycare', { gray:0.45 }); y += 11;
+  b.textCenter(CX, y, 11, 'The Kinderclick Daycare', { gray:0.45 }); y += 11;
   b.line(L, y, R, y, { width:1.2, gray:0.8 }); y += 13;
 
   const periodLabel = periodYear == null ? 'All periods' : periodName(periodYear);
@@ -1931,7 +1931,7 @@ function drawContract(b, f, periodYear, logo){
   let parentName = parentFirst;
   if(parentFirst && parentLast && !lastRe.test(parentFirst)) parentName = parentFirst + ' ' + parentLast;
   if(!parentName) parentName = f.name || '________________';
-  para('The following contract constitutes an agreement between Cong. Bais Chinuch Ateres Bnos and '
+  para('The following contract constitutes an agreement between Cong. Bais Chinuch The Kinderclick and '
     + parentName + ' for legally exempt daycare services to be provided to their child(ren) for the '
     + periodLabel + ' school year.', { after: 2 });
 
@@ -1963,7 +1963,7 @@ function drawContract(b, f, periodYear, logo){
   bullet('School Age Full Day - 6 hours: $63.00 daily');
   bullet('Part Day - less than 6 hours: $42.00 daily');
   y += 2;
-  para('Cong. Bais Chinuch Ateres Bnos reserves the right to increase the above outlined rate at any '
+  para('Cong. Bais Chinuch The Kinderclick reserves the right to increase the above outlined rate at any '
     + 'time, given that parents receive notice of upcoming price changes at least 2 weeks prior to '
     + 'effective rate change date.');
 
@@ -2088,8 +2088,8 @@ function updateDashboardCounts(){
   }
   const sub = document.getElementById('dash-sub');
   if(sub) sub.textContent = py == null
-    ? 'Overview of Ateres Bnos Daycare — all periods'
-    : 'Overview of Ateres Bnos Daycare — '+periodName(py)+' period';
+    ? 'Overview of The Kinderclick Daycare — all periods'
+    : 'Overview of The Kinderclick Daycare — '+periodName(py)+' period';
   renderGroupSummary(fams, inSel);
 }
 
