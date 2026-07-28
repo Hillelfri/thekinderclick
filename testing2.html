@@ -1,0 +1,3056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ateres Bnos Daycare Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F0F4FA;color:#1E293B;min-height:100vh}
+h1,h2,h3,.logo-text{font-family:'Nunito',sans-serif}
+/* ── LANDING ── */
+#landing-screen{display:none;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100vh;text-align:center;padding:4rem 1.5rem 2.5rem;background:linear-gradient(135deg,#EFF6FF 0%,#DBEAFE 100%);position:relative;overflow:hidden}
+#landing-screen::before{content:"";position:absolute;inset:0;background:url('assets/logo-blue.png') center center/contain no-repeat;filter:blur(6px);opacity:.4;z-index:0}
+.landing-inner{max-width:640px;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;flex:1;width:100%}
+.landing-inner h1{font-size:52px;color:#1E3A5F;font-weight:800;line-height:1.1}
+.landing-tag{font-size:16px;color:#2C7BE5;font-weight:700;margin-top:.5rem;letter-spacing:.02em}
+.landing-mission{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;max-width:640px;padding:0 1.5rem;z-index:1}
+.landing-mission h2{font-size:19px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:800;margin-bottom:.85rem;text-shadow:0 0 6px #fff,0 0 12px #fff,0 0 3px #fff}
+.landing-mission p{font-size:16px;line-height:1.75;color:#1E293B;font-weight:500;text-shadow:0 0 6px #fff,0 0 12px #fff,0 0 4px #fff,0 0 2px #fff}
+.landing-btn{margin-top:auto;padding:14px 2.75rem;background:#2C7BE5;color:#fff;border:none;border-radius:12px;font-size:16px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;transition:background .2s}
+.landing-btn:hover{background:#1B63C8}
+/* ── LOGIN ── */
+#login-screen{display:none;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#EFF6FF 0%,#DBEAFE 100%)}
+.login-card{background:#fff;border-radius:20px;padding:2.5rem 2rem;width:380px;box-shadow:0 4px 32px rgba(44,123,229,0.10)}
+.login-logo{text-align:center;margin-bottom:1.75rem}
+.login-logo .logo-img{height:96px;width:auto;display:block;margin:0 auto .5rem}
+.login-logo h1{font-size:22px;color:#1E3A5F;font-weight:700}
+.login-logo p{font-size:13px;color:#64748B;margin-top:4px}
+.login-card label{font-size:12px;font-weight:600;color:#475569;display:block;margin-bottom:5px;margin-top:1rem;letter-spacing:.03em;text-transform:uppercase}
+.login-card input{width:100%;padding:10px 14px;border:1.5px solid #CBD5E1;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border .2s}
+.login-card input:focus{border-color:#2C7BE5}
+.login-btn{width:100%;margin-top:1.5rem;padding:12px;background:#2C7BE5;color:#fff;border:none;border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;transition:background .2s}
+.login-btn:hover{background:#1B63C8}
+.login-error{color:#DC2626;font-size:13px;margin-top:.75rem;text-align:center;display:none}
+.login-hint{margin-top:1.25rem;background:#F0F6FF;border-radius:10px;padding:.875rem 1rem;font-size:12px;color:#475569;line-height:1.7}
+.login-hint strong{color:#1E3A5F;display:block;margin-bottom:4px}
+/* ── APP SHELL ── */
+#app{display:none;min-height:100vh;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar-logo{font-family:'Nunito',sans-serif;font-size:18px;font-weight:700;color:#1E3A5F;display:flex;align-items:center;gap:8px}
+.topbar-logo .topbar-logo-img{height:36px;width:auto;display:block}
+.topbar-logo span{color:#2C7BE5}
+.role-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
+.badge-admin{background:#DBEAFE;color:#1E40AF}
+.badge-parent{background:#DCFCE7;color:#166534}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.user-name{font-size:13px;color:#475569}
+.logout-btn{font-size:13px;padding:6px 14px;border:1.5px solid #CBD5E1;border-radius:8px;background:#fff;cursor:pointer;color:#475569;font-family:'Inter',sans-serif;transition:all .2s}
+.logout-btn:hover{border-color:#2C7BE5;color:#2C7BE5}
+.body-wrap{display:flex;flex:1}
+.sidebar{width:210px;background:#fff;border-right:1px solid #E2E8F0;padding:1.25rem 0;flex-shrink:0;min-height:calc(100vh - 60px)}
+.nav-section{font-size:10px;font-weight:700;color:#94A3B8;letter-spacing:.08em;text-transform:uppercase;padding:0 1.25rem .5rem}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 1.25rem;cursor:pointer;font-size:13.5px;color:#475569;transition:all .15s;border-left:3px solid transparent}
+.nav-item:hover{background:#F8FAFC;color:#1E3A5F}
+.nav-item.active{background:#EFF6FF;color:#2C7BE5;border-left-color:#2C7BE5;font-weight:600}
+.nav-item .icon{font-size:16px;width:18px;text-align:center}
+.main-content{flex:1;padding:2rem;max-width:960px}
+.loading-overlay{display:none;position:fixed;inset:0;z-index:1000;background:#F8FAFC;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem}
+.loading-overlay.active{display:flex}
+.loading-spinner{width:46px;height:46px;border:4px solid #E2E8F0;border-top-color:#2C7BE5;border-radius:50%;animation:loading-spin .8s linear infinite}
+.loading-msg{font-size:15px;font-weight:600;color:#1E3A5F}
+@keyframes loading-spin{to{transform:rotate(360deg)}}
+.page{display:none}
+.page.active{display:block}
+.page-header{margin-bottom:1.5rem}
+.page-header h2{font-size:22px;font-weight:700;color:#1E3A5F}
+.page-header p{font-size:13px;color:#64748B;margin-top:3px}
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.stat-card{background:#fff;border-radius:14px;padding:1.125rem;border:1px solid #E2E8F0}
+.stat-label{font-size:11px;color:#94A3B8;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.stat-val{font-size:26px;font-weight:700;font-family:'Nunito',sans-serif;color:#1E3A5F;margin-top:4px}
+.stat-sub{font-size:11px;color:#64748B;margin-top:2px}
+/* ── CARDS ── */
+.card{background:#fff;border-radius:14px;border:1px solid #E2E8F0;padding:1.25rem;margin-bottom:1rem}
+.card-title{font-size:15px;font-weight:700;color:#1E3A5F;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.card-title .ct-icon{font-size:17px}
+/* ── FAMILY CARDS ── */
+.families-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.family-card{background:#fff;border-radius:14px;border:1px solid #E2E8F0;padding:1.125rem;transition:box-shadow .2s}
+.family-card:hover{box-shadow:0 4px 16px rgba(44,123,229,.08)}
+.fam-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.fam-id{display:flex;align-items:center;gap:10px}
+.avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;flex-shrink:0}
+.av-blue{background:#DBEAFE;color:#1E40AF}
+.av-teal{background:#CCFBF1;color:#0F766E}
+.av-amber{background:#FEF3C7;color:#92400E}
+.av-coral{background:#FFE4E6;color:#9F1239}
+.av-purple{background:#EDE9FE;color:#5B21B6}
+.fam-name{font-size:14px;font-weight:700;color:#1E3A5F}
+.fam-contact{font-size:11px;color:#94A3B8;margin-top:1px}
+.balance-pill{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px}
+.pill-red{background:#FEE2E2;color:#DC2626}
+.pill-green{background:#DCFCE7;color:#16A34A}
+.pill-gray{background:#F1F5F9;color:#475569}
+.children-section{border-top:1px solid #F1F5F9;padding-top:10px;margin-top:2px}
+.child-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0}
+.child-left{display:flex;align-items:center;gap:8px}
+.child-name{font-size:13px;color:#334155;font-weight:500}
+.age-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
+.b-preschool{background:#EDE9FE;color:#5B21B6}
+.b-schoolage{background:#E0F2FE;color:#075985}
+.child-rate{font-size:12px;color:#94A3B8}
+.child-dates{margin:2px 0 12px}.child-dates .pay-add-grid{margin-bottom:0;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+.cd-static{font-size:12px;color:#64748B}
+/* ── FAMILY DETAIL MODAL ── */
+.family-card{cursor:pointer}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:flex-start;justify-content:center;z-index:500;padding:2.5rem 1rem;overflow-y:auto}
+.modal-overlay.show{display:flex}
+.modal{background:#F8FAFC;border-radius:16px;width:100%;max-width:660px;box-shadow:0 20px 60px rgba(15,23,42,.3);overflow:hidden;animation:modalIn .2s ease}
+@keyframes modalIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.modal-head{background:#fff;padding:1.25rem 1.5rem;border-bottom:1px solid #E2E8F0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.modal-close{background:#F1F5F9;border:none;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:18px;color:#64748B;line-height:1;flex-shrink:0}
+.modal-close:hover{background:#E2E8F0;color:#1E3A5F}
+.modal-body{padding:1.25rem 1.5rem}
+.acct-summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem}
+.acct-stat{flex:1;min-width:140px;background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:.75rem .9rem}
+.acct-stat .as-label{font-size:10px;color:#94A3B8;text-transform:uppercase;letter-spacing:.03em;font-weight:700}
+.acct-stat .as-val{font-size:18px;font-weight:700;margin-top:3px;font-family:'Nunito',sans-serif;color:#1E3A5F}
+.ledger-amt{color:#16A34A;font-weight:700;white-space:nowrap}
+.ledger-bal{font-weight:700;color:#1E3A5F;white-space:nowrap}
+.ledger-open td{color:#94A3B8;background:#fff}
+.pay-del{background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
+.pay-del:hover{background:#FCA5A5}
+.abs-add{display:flex;gap:8px;align-items:center;margin-bottom:.85rem;flex-wrap:wrap}
+.abs-date{border:1px solid #CBD5E1;border-radius:9px;padding:7px 10px;font-size:13px;font-family:'Inter',sans-serif;color:#1E3A5F}
+.abs-add-btn{background:#2C7BE5;color:#fff;border:none;border-radius:9px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
+.abs-add-btn:hover{background:#1B63C8}
+.pay-add{margin-bottom:1rem}
+.pay-add-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:.75rem}
+.pay-fld{display:flex;flex-direction:column;gap:4px;font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.03em}
+.pay-inp{border:1px solid #CBD5E1;border-radius:9px;padding:7px 10px;font-size:13px;font-family:'Inter',sans-serif;color:#1E3A5F;background:#fff}
+.abs-list{display:flex;flex-direction:column;gap:10px}
+.abs-row{border:1px solid #E2E8F0;border-radius:11px;padding:.7rem .8rem;background:#F8FAFC}
+.abs-row-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.abs-date-label{font-weight:700;color:#1E3A5F;font-size:13px}
+.abs-credit{margin-left:auto;font-weight:700;font-size:13px;color:#0F766E}
+.abs-kids{display:flex;flex-wrap:wrap;gap:8px;margin-top:.6rem}
+.abs-kid{display:inline-flex;align-items:center;gap:7px;border:1px solid #CBD5E1;border-radius:999px;padding:5px 11px;font-size:12px;cursor:pointer;background:#fff;color:#475569;user-select:none}
+.abs-kid.on{border-color:#2C7BE5;background:#EAF2FE;color:#1B63C8}
+.abs-kid input{accent-color:#2C7BE5;cursor:pointer;margin:0}
+.abs-kid-name{font-weight:700}
+.abs-kid-rate{color:#94A3B8;font-weight:600}
+.abs-kid.on .abs-kid-rate{color:#2C7BE5}
+/* ── SCHEDULE ── */
+.schedule-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.sch-card{background:#fff;border-radius:14px;border:1px solid #E2E8F0;padding:1.125rem}
+.sch-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #F1F5F9}
+.sch-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.sch-title{font-size:14px;font-weight:700;color:#1E3A5F;font-family:'Nunito',sans-serif}
+.sch-age{font-size:11px;color:#94A3B8}
+.time-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12.5px}
+.time-row:not(:last-child){border-bottom:1px dashed #F1F5F9}
+.t-time{color:#94A3B8;font-weight:600;min-width:64px}
+.t-act{color:#334155}
+/* ── CALENDAR ── */
+.cal-card{background:#fff;border-radius:14px;border:1px solid #E2E8F0;padding:1.125rem;margin-bottom:1rem}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+.cal-title{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:#1E3A5F;font-family:'Nunito',sans-serif}
+.cal-nav{display:flex;align-items:center;gap:8px}
+.cal-nav button{width:30px;height:30px;border:1.5px solid #E2E8F0;background:#fff;border-radius:8px;cursor:pointer;color:#475569;font-size:15px;line-height:1}
+.cal-nav button:hover:not(:disabled){border-color:#2C7BE5;color:#2C7BE5}
+.cal-nav button:disabled{opacity:.35;cursor:not-allowed}
+.cal-month{font-size:13.5px;font-weight:700;color:#1E3A5F;min-width:128px;text-align:center}
+.cal-period{font-size:11px;font-weight:700;color:#2C7BE5;background:#EFF5FF;border-radius:999px;padding:2px 9px;margin-left:2px}
+.periods-list{display:flex;flex-wrap:wrap;gap:8px}
+.period-chip{font-size:12.5px;font-weight:700;color:#1E3A5F;background:#EEF2F7;border:1.5px solid #E2E8F0;border-radius:999px;padding:5px 13px}
+.period-empty{font-size:13px;color:#94A3B8}
+/* Period dropdown — dashboard header and family account modal */
+.dash-header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.period-select-wrap{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.04em}
+.period-select{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1E3A5F;background:#fff;border:1.5px solid #CBD5E1;border-radius:10px;padding:8px 12px;cursor:pointer;outline:none;transition:border .2s}
+.period-select:focus{border-color:#2C7BE5}
+.modal-head-right{display:flex;align-items:center;gap:12px}
+.child-periods{margin-top:8px}
+.child-periods .cp-label{font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+.cp-toggles{display:flex;flex-wrap:wrap;gap:7px}
+.cp-toggle{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#334155;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:8px;padding:5px 10px;cursor:pointer}
+.cp-toggle input{margin:0;cursor:pointer}
+.cp-toggle.cp-on{border-color:#2C7BE5;color:#1B63C8;background:#EFF5FF}
+.cp-none{font-size:12px;color:#94A3B8}
+.child-ccap{margin-top:10px;padding-top:10px;border-top:1px dashed #E2E8F0}
+.child-ccap .cp-label{font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+.ccap-check{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:#1E3A5F;cursor:pointer}
+.ccap-check input{margin:0;cursor:pointer}
+.ccap-period{font-weight:600;color:#64748B}
+.ccap-dates{margin-top:8px}
+.ccap-summary{display:flex;flex-wrap:wrap;gap:7px;margin:5px 0}
+.ccap-hint{display:block;margin-top:6px;font-size:11px;color:#64748B;line-height:1.5}
+.cal-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px;font-size:11px;color:#64748B}
+.cal-legend span{display:inline-flex;align-items:center;gap:5px}
+.lg-dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+.lg-full{background:#16A34A}.lg-part{background:#F59E0B}.lg-closed{background:#94A3B8}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-dow{font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;text-align:center;padding:2px 0}
+.cal-cell{min-height:96px;border:1px solid #EEF2F7;border-radius:10px;padding:5px;display:flex;flex-direction:column;gap:4px;background:#FBFCFE}
+.cal-cell.empty{background:transparent;border:none}
+.cal-cell.s-full{background:#F0FDF4;border-color:#BBF7D0}
+.cal-cell.s-part{background:#FFFBEB;border-color:#FDE68A}
+.cal-cell.s-closed{background:#F8FAFC;border-color:#E2E8F0}
+.cal-date{font-size:12px;font-weight:700;color:#334155}
+.cal-opts{display:flex;gap:3px}
+.cal-opt{flex:1;font-size:9.5px;padding:3px 0;border:1px solid #E2E8F0;border-radius:6px;background:#fff;cursor:pointer;color:#64748B;text-align:center;font-family:'Inter',sans-serif}
+.cal-opt:hover{border-color:#2C7BE5}
+.cal-opt.on-full{background:#16A34A;color:#fff;border-color:#16A34A}
+.cal-opt.on-part{background:#F59E0B;color:#fff;border-color:#F59E0B}
+.cal-opt.on-closed{background:#94A3B8;color:#fff;border-color:#94A3B8}
+.cal-note{width:100%;border:1px solid #EEF2F7;border-radius:6px;font-size:10px;padding:3px 4px;font-family:'Inter',sans-serif;outline:none;color:#475569;background:#fff;margin-top:auto}
+.cal-note:focus{border-color:#2C7BE5}
+.cal-cell.readonly .cal-opt{cursor:default;pointer-events:none}
+.cal-note[readonly]{background:#F8FAFC;cursor:default}
+.fam-total-row td{font-weight:700;color:#1E3A5F;background:#F8FAFC}
+.sch-total-foot td{font-weight:700;color:#1E3A5F;border-top:2px solid #E2E8F0}
+/* ── PRICING TABLE ── */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:9px 12px;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid #F1F5F9}
+td{padding:11px 12px;font-size:13.5px;color:#334155;border-bottom:1px solid #F8FAFC}
+tr:last-child td{border-bottom:none}
+.price-hl{color:#2C7BE5;font-weight:700}
+.rate-input-wrap{display:inline-flex;align-items:center;gap:3px}
+.rate-input-wrap .rate-currency{color:#2C7BE5;font-weight:700}
+.rate-input{width:80px;border:1.5px solid #CBD5E1;border-radius:8px;padding:5px 8px;font-size:13.5px;font-family:'Inter',sans-serif;color:#1E293B;font-weight:600;outline:none;transition:border-color .15s}
+.rate-input:focus{border-color:#2C7BE5}
+.group-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle}
+/* ── BILLING ── */
+.bill-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #F8FAFC}
+.bill-row:last-child{border-bottom:none}
+.bill-left{display:flex;align-items:center;gap:12px}
+.bill-name{font-size:14px;font-weight:600;color:#1E3A5F}
+.bill-detail{font-size:11px;color:#94A3B8;margin-top:2px}
+.bill-amt{font-weight:700;font-size:15px}
+.amt-red{color:#DC2626}
+.amt-green{color:#16A34A}
+.amt-gray{color:#94A3B8}
+.bill-status{font-size:11px;margin-top:2px;text-align:right}
+.st-red{color:#DC2626}
+.st-green{color:#16A34A}
+/* ── PARENT DASHBOARD ── */
+.parent-hero{background:linear-gradient(135deg,#2C7BE5,#1B63C8);border-radius:16px;padding:1.5rem;color:#fff;margin-bottom:1.25rem}
+.parent-hero h2{font-size:20px;font-weight:700;font-family:'Nunito',sans-serif}
+.parent-hero p{font-size:13px;opacity:.8;margin-top:4px}
+.parent-balance{margin-top:1rem;display:flex;align-items:center;gap:12px}
+.pb-label{font-size:12px;opacity:.7}
+.pb-val{font-size:28px;font-weight:700;font-family:'Nunito',sans-serif}
+.pb-status{font-size:12px;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px}
+/* ── FILTERS ── */
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap}
+.filter-bar input{padding:8px 14px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;min-width:220px;transition:border .2s}
+.filter-bar input:focus{border-color:#2C7BE5}
+.tag-btn{font-size:12px;padding:6px 14px;border-radius:20px;border:1.5px solid #E2E8F0;background:#fff;cursor:pointer;color:#64748B;font-family:'Inter',sans-serif;transition:all .15s}
+.tag-btn.on,.tag-btn:hover{background:#2C7BE5;color:#fff;border-color:#2C7BE5}
+.alert-banner{background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:.875rem 1rem;margin-bottom:1rem;display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#991B1B}
+.notice-box{background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;padding:.75rem 1rem;font-size:12px;color:#0369A1;display:flex;gap:8px;margin-top:.75rem}
+/* ── FORM BUTTON ── */
+.save-btn{margin-top:1.25rem;padding:10px 24px;background:#2C7BE5;color:#fff;border:none;border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;transition:background .2s}
+.save-btn:hover{background:#1B63C8}
+/* ── IMPORT / UPLOAD ── */
+.upload-zone{border:2px dashed #CBD5E1;border-radius:14px;padding:2rem 1rem;text-align:center;cursor:pointer;transition:all .2s;background:#F8FAFC}
+.upload-zone:hover,.upload-zone.drag{border-color:#2C7BE5;background:#EFF6FF}
+.upload-zone .uz-icon{font-size:34px}
+.upload-zone .uz-text{font-size:14px;font-weight:700;color:#1E3A5F;font-family:'Nunito',sans-serif;margin-top:8px}
+.upload-zone .uz-sub{font-size:12px;color:#94A3B8;margin-top:3px}
+.save-btn:disabled{background:#CBD5E1;cursor:not-allowed}
+.import-status{margin-top:1rem;font-size:13px;line-height:1.6;display:none}
+.import-status.show{display:block}
+.import-status.ok{color:#16A34A}
+.import-status.err{color:#DC2626}
+.import-empty{text-align:center;padding:2.5rem 1rem;color:#64748B;font-size:13.5px;grid-column:1/-1}
+.import-empty .ie-icon{font-size:36px;display:block;margin-bottom:.5rem}
+.toast{position:fixed;bottom:24px;right:24px;background:#1E3A5F;color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-family:'Nunito',sans-serif;font-weight:600;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:768px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .families-grid{grid-template-columns:1fr}
+  .schedule-grid{grid-template-columns:1fr}
+  .sidebar{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ LANDING ═══════════════════════════════ -->
+<div id="landing-screen">
+  <div class="landing-inner">
+    <h1>Ateres Bnos Daycare</h1>
+    <div class="landing-tag">Family Portal</div>
+    <button class="landing-btn" onclick="showLogin()">Sign In to the Portal</button>
+  </div>
+  <div class="landing-mission">
+    <h2>Our Mission</h2>
+    <p>At Ateres Bnos Daycare, we are dedicated to providing a warm, safe, and nurturing
+    environment where every child is cherished. Through loving care, joyful learning, and
+    individual attention, our program is designed to support each child's social, emotional,
+    and cognitive development — laying a strong foundation for a lifetime of learning and good
+    character grounded in the observance of Jewish law and tradition.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <img class="logo-img" src="assets/logo.png" alt="Ateres Bnos Daycare logo" />
+      <h1>Ateres Bnos Daycare</h1>
+      <p>Family Portal — sign in to continue</p>
+    </div>
+    <label for="li-email">Email address</label>
+    <input type="email" id="li-email" placeholder="you@example.com" />
+    <label for="li-pass">Password</label>
+    <input type="password" id="li-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
+    <button class="login-btn" onclick="doLogin()">Sign in</button>
+    <div class="login-error" id="login-error">Incorrect email or password. Please try again.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ APP ═══════════════════════════════ -->
+<div id="app">
+  <!-- Full-screen loading state shown while the portal fetches live data on login -->
+  <div class="loading-overlay" id="app-loading">
+    <div class="loading-spinner"></div>
+    <div class="loading-msg">Please wait while the data loads…</div>
+  </div>
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo"><img class="topbar-logo-img" src="assets/logo.png" alt="Ateres Bnos Daycare logo" /> <span>Ateres Bnos</span> Daycare</div>
+      <span class="role-badge" id="role-badge"></span>
+    </div>
+    <div class="topbar-right">
+      <span class="user-name" id="topbar-username"></span>
+      <button class="logout-btn" onclick="doLogout()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="body-wrap">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div id="admin-nav" style="display:none">
+        <div class="nav-section">Admin</div>
+        <div class="nav-item active" onclick="showPage('dashboard',this)" data-page="dashboard">
+          <span class="icon">📊</span> Dashboard
+        </div>
+        <div class="nav-item" onclick="showPage('families',this)" data-page="families">
+          <span class="icon">👨‍👩‍👧‍👦</span> Families
+        </div>
+        <div class="nav-item" onclick="showPage('import',this)" data-page="import">
+          <span class="icon">📥</span> Import Data
+        </div>
+        <div class="nav-item" onclick="showPage('payments',this)" data-page="payments">
+          <span class="icon">💳</span> Payments
+        </div>
+        <div class="nav-item" onclick="showPage('schedule',this)" data-page="schedule">
+          <span class="icon">📅</span> Schedule
+        </div>
+        <div class="nav-item" onclick="showPage('attendance',this)" data-page="attendance">
+          <span class="icon">🤒</span> Attendance
+        </div>
+        <div class="nav-item" onclick="showPage('pricing',this)" data-page="pricing">
+          <span class="icon">💰</span> Pricing
+        </div>
+        <div class="nav-item" onclick="showPage('billing',this)" data-page="billing">
+          <span class="icon">🧾</span> Billing
+        </div>
+        <div class="nav-item" onclick="showPage('contracts',this)" data-page="contracts">
+          <span class="icon">📄</span> Contracts
+        </div>
+      </div>
+      <div id="parent-nav" style="display:none">
+        <div class="nav-section">My Portal</div>
+        <div class="nav-item active" onclick="showPage('parent-home',this)" data-page="parent-home">
+          <span class="icon">🏠</span> My Family
+        </div>
+        <div class="nav-item" onclick="showPage('parent-schedule',this)" data-page="parent-schedule">
+          <span class="icon">📅</span> Schedule
+        </div>
+        <div class="nav-item" onclick="showPage('parent-billing',this)" data-page="parent-billing">
+          <span class="icon">🧾</span> My Balance
+        </div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main-content">
+
+      <!-- ─── ADMIN: DASHBOARD ─── -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header dash-header">
+          <div><h2>Dashboard</h2><p id="dash-sub">Overview of Ateres Bnos Daycare</p></div>
+          <label class="period-select-wrap">Period
+            <select id="dashboard-period" class="period-select" onchange="setDashboardPeriod(this.value)"></select>
+          </label>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-label">Families</div><div class="stat-val">—</div><div class="stat-sub">enrolled</div></div>
+          <div class="stat-card"><div class="stat-label">Children</div><div class="stat-val">—</div><div class="stat-sub">across 0 groups</div></div>
+          <div class="stat-card"><div class="stat-label">Monthly revenue</div><div class="stat-val">—</div><div class="stat-sub">estimated</div></div>
+          <div class="stat-card"><div class="stat-label">Balances overdue</div><div class="stat-val" style="color:#DC2626">—</div><div class="stat-sub">families</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">👥</span> Group summary</div>
+          <table>
+            <thead><tr><th>Group</th><th>Ages</th><th>Children</th><th>Daily rate</th><th>Monthly est.</th></tr></thead>
+            <tbody id="group-summary-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ─── ADMIN: FAMILIES ─── -->
+      <div class="page" id="page-families">
+        <div class="page-header"><h2>Families</h2><p>All enrolled families and their children.</p></div>
+        <div class="filter-bar">
+          <input type="text" id="fam-search" placeholder="Search by family name…" oninput="filterFamilies()" />
+          <button class="tag-btn on" onclick="setGroupFilter(this,'all')">All groups</button>
+          <button class="tag-btn" onclick="setGroupFilter(this,'preschool')">Preschool</button>
+          <button class="tag-btn" onclick="setGroupFilter(this,'school-age')">School Age</button>
+        </div>
+        <div class="families-grid" id="families-grid"></div>
+      </div>
+
+      <!-- ─── ADMIN: IMPORT DATA ─── -->
+      <div class="page" id="page-import">
+        <div class="page-header"><h2>Import Family Data</h2><p>Upload a spreadsheet to replace the roster with your real families and children.</p></div>
+
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">📋</span> Spreadsheet format</div>
+          <p style="font-size:13px;color:#475569;line-height:1.7;margin-bottom:.75rem">
+            Use a <strong>CSV file</strong> with the columns below, in this order, and a header row on top.
+            Add <strong>one row per child</strong> — repeat the family columns for each child so siblings share the same family. Families are grouped by <strong>Family ID</strong>.
+          </p>
+          <table>
+            <thead><tr><th>Column</th><th>Required</th><th>Description &amp; example</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Family ID</strong></td><td>Yes</td><td>Unique ID for the household; rows with the same Family ID are merged into one family — e.g. <em>F-1024</em></td></tr>
+              <tr><td><strong>Family Name</strong></td><td>Yes</td><td>Household name shown in the portal — e.g. <em>Martinez Family</em></td></tr>
+              <tr><td><strong>Contact Name</strong></td><td>No</td><td>Primary parent/guardian — e.g. <em>Jordan Martinez</em></td></tr>
+              <tr><td><strong>Email</strong></td><td>No</td><td>Family email (optional) — e.g. <em>martinez@email.com</em></td></tr>
+              <tr><td><strong>Phone</strong></td><td>No</td><td>Contact phone — e.g. <em>(555) 210-4492</em></td></tr>
+              <tr><td><strong>Address</strong></td><td>No</td><td>Home address — e.g. <em>14 Maple St, Springfield</em></td></tr>
+              <tr><td><strong>Balance</strong></td><td>No</td><td>Whole dollars. Negative = owed, positive = credit, 0 = paid — e.g. <em>-890</em></td></tr>
+              <tr><td><strong>Child Name</strong></td><td>Yes</td><td>Child's first name — e.g. <em>Sofia</em></td></tr>
+              <tr><td><strong>Date of Birth</strong></td><td>No</td><td>Child's date of birth — e.g. <em>2021-09-14</em></td></tr>
+              <tr><td><strong>Group</strong></td><td>Yes</td><td>One of: <em>Preschool</em> or <em>School Age</em></td></tr>
+              <tr><td><strong>Daily Rate</strong></td><td>No</td><td>Whole dollars per day — e.g. <em>80</em></td></tr>
+              <tr><td><strong>Start Date</strong></td><td>No</td><td>Date the child started — the family is only billed from this day on. Accepts <em>2025-09-01</em> or <em>9/1/2025</em></td></tr>
+              <tr><td><strong>Periods</strong></td><td>Yes</td><td>School year(s) the child is billed for, named by the <strong>September the year starts</strong>. A child attending Sept 2025–Aug 2026 is <em>2025 - 2026</em>; list several comma-separated — e.g. <em>2025 - 2026, 2026 - 2027</em>. A child with no period here is billed for nothing.</td></tr>
+            </tbody>
+          </table>
+          <div class="notice-box">ℹ️ A child is billed for the active calendar days that fall in the <strong>Periods</strong> assigned to them, on or after their <strong>Start Date</strong>. Make sure each child's period matches the school year whose calendar you marked on the Schedule tab — e.g. days in spring 2026 belong to the <em>2025 - 2026</em> period.</div>
+          <div class="notice-box">ℹ️ Importing <strong>replaces all current families</strong> with the contents of your file. Download the template below to get the columns exactly right.</div>
+          <button class="tag-btn" style="margin-top:1rem" onclick="downloadTemplate()">⬇️ Download CSV template</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">📥</span> Upload your spreadsheet</div>
+          <div class="upload-zone" id="upload-zone" onclick="document.getElementById('csv-file').click()">
+            <input type="file" id="csv-file" accept=".csv,text/csv" style="display:none" onchange="handleFilePick(this)" />
+            <div class="uz-icon">📄</div>
+            <div class="uz-text" id="uz-text">Click to choose a CSV file</div>
+            <div class="uz-sub" id="uz-sub">or drag &amp; drop it here</div>
+          </div>
+          <button class="save-btn" id="import-btn" onclick="runImport()" disabled>Import families</button>
+          <div id="import-status" class="import-status"></div>
+        </div>
+      </div>
+
+      <!-- ─── ADMIN: PAYMENTS ─── -->
+      <div class="page" id="page-payments">
+        <div class="page-header"><h2>Payments</h2><p>Upload a payments spreadsheet whenever you receive them. Each upload adds to the running history — old payments are kept, and totals accumulate for every family.</p></div>
+
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">📋</span> Spreadsheet format</div>
+          <p style="font-size:13px;color:#475569;line-height:1.7;margin-bottom:.75rem">
+            Use a <strong>CSV file</strong> with the columns below and a header row on top. Add
+            <strong>one row per payment</strong>. The <strong>Family ID</strong> links each payment to a
+            family, so it must match the Family ID used when importing families.
+          </p>
+          <table>
+            <thead><tr><th>Column</th><th>Required</th><th>Description &amp; example</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Family ID</strong></td><td>Yes</td><td>The household's ID — must match the families import — e.g. <em>F-1024</em></td></tr>
+              <tr><td><strong>Payment Date</strong></td><td>No</td><td>Date the payment was made — e.g. <em>2026-06-01</em></td></tr>
+              <tr><td><strong>Amount</strong></td><td>Yes</td><td>Whole dollars paid — e.g. <em>500</em></td></tr>
+              <tr><td><strong>Payment Method</strong></td><td>No</td><td>How it was paid — e.g. <em>Check</em>, <em>Zelle</em>, <em>Card</em></td></tr>
+              <tr><td><strong>Reference</strong></td><td>No</td><td>Check number or confirmation code — e.g. <em>#1043</em></td></tr>
+            </tbody>
+          </table>
+          <div class="notice-box">ℹ️ Importing <strong>adds</strong> these payments to what is already recorded — it never replaces existing payments. Re-uploading the same file will record those payments again.</div>
+          <button class="tag-btn" style="margin-top:1rem" onclick="downloadPaymentTemplate()">⬇️ Download CSV template</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">📥</span> Upload payments spreadsheet</div>
+          <div class="upload-zone" id="pay-upload-zone" onclick="document.getElementById('pay-csv-file').click()">
+            <input type="file" id="pay-csv-file" accept=".csv,text/csv" style="display:none" onchange="handlePayFilePick(this)" />
+            <div class="uz-icon">📄</div>
+            <div class="uz-text" id="pay-uz-text">Click to choose a CSV file</div>
+            <div class="uz-sub" id="pay-uz-sub">or drag &amp; drop it here</div>
+          </div>
+          <button class="save-btn" id="pay-import-btn" onclick="runPaymentImport()" disabled>Import payments</button>
+          <div id="pay-import-status" class="import-status"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">🧾</span> Balances after payments</div>
+          <div id="payments-summary"></div>
+          <div class="notice-box">ℹ️ Current balance is each family's scheduled tuition minus the total payments recorded for them. A negative balance means the family has paid ahead (credit).</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">📜</span> Recorded payments</div>
+          <div id="payments-history"></div>
+        </div>
+      </div>
+
+      <!-- ─── ADMIN: SCHEDULE ─── -->
+      <div class="page" id="page-schedule">
+        <div class="page-header"><h2>Schedule</h2><p>Mark each day as full-day, part-day, or closed for each program, and add notes. Tuition totals below update from your selections.</p></div>
+        <div class="card" id="periods-card">
+          <div class="card-title"><span class="ct-icon">📅</span> Enrollment periods</div>
+          <p style="font-size:13px;color:#64748B;margin:0 0 10px">Each period runs September through August. Adding a period extends the calendar below by a full school year. Children are billed only for periods assigned to their name.</p>
+          <div id="periods-list" class="periods-list"></div>
+          <button id="add-period-btn" class="abs-add-btn" style="margin-top:12px" onclick="addNextPeriod()">➕ Add period</button>
+        </div>
+        <div class="cal-card" id="cal-preschool"></div>
+        <div class="cal-card" id="cal-school-age"></div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">🧮</span> Projected tuition from schedule</div>
+          <div id="schedule-totals"></div>
+          <div class="notice-box">ℹ️ Totals are the sum of scheduled days across every created period — full days at the full-day rate and part days at the part-day rate. Each child is counted only for the periods assigned to them. Days left unset and closed days are not charged.</div>
+        </div>
+      </div>
+
+      <!-- ─── ADMIN: PRICING ─── -->
+      <div class="page" id="page-pricing">
+        <div class="page-header"><h2>Pricing</h2><p>Daily rates by age group.</p></div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">💰</span> Rates by group</div>
+          <table>
+            <thead><tr><th>Group</th><th>Ages</th><th>Schedule</th><th>Ateres Bnos Rate</th><th>DSS Rate</th></tr></thead>
+            <tbody id="pricing-rows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ─── ADMIN: BILLING ─── -->
+      <div class="page" id="page-billing">
+        <div class="page-header"><h2>Billing &amp; Balances</h2><p>Scheduled tuition, payments received, and the resulting balance for each family — updated as the calendar is marked and payments are imported.</p></div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">🧾</span> Family balances</div>
+          <div id="billing-balances"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">📈</span> Scheduled tuition summary</div>
+          <table>
+            <thead><tr><th>Family</th><th>Scheduled tuition</th><th>Payments received</th><th>Current balance</th></tr></thead>
+            <tbody id="billing-revenue"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ─── ADMIN: CONTRACTS ─── -->
+      <div class="page" id="page-contracts">
+        <div class="page-header"><h2>Contracts</h2><p>Generate enrollment contracts as PDFs. Pick a billing period and the families to include — each contract lists every child, their start date and age group, the full, part and absent days for the period, and the family subtotal net of absence credits.</p></div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">📄</span> Generate contracts</div>
+          <label class="period-select-wrap" style="margin-bottom:16px">Billing period
+            <select id="contract-period" class="period-select" onchange="setContractPeriod(this.value)"></select>
+          </label>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.04em">Families <span id="contract-count" style="color:#94A3B8"></span></div>
+            <div style="display:flex;gap:8px">
+              <button class="tag-btn" type="button" onclick="selectAllContractFamilies()">Select all</button>
+              <button class="tag-btn" type="button" onclick="clearContractFamilies()">Clear</button>
+            </div>
+          </div>
+          <div id="contract-family-list" class="cp-toggles" style="max-height:280px;overflow:auto"></div>
+          <button class="save-btn" id="contract-generate-btn" onclick="generateContracts()">⬇️ Generate PDF</button>
+          <div id="contract-status" class="import-status"></div>
+          <div class="notice-box">ℹ️ Amounts reflect scheduled full-day and part-day tuition from the calendar for the selected period — the same figures shown on the Schedule and Billing tabs. Selecting more than one family produces a single PDF with one contract per page.</div>
+        </div>
+      </div>
+
+      <!-- ─── ADMIN: ATTENDANCE ─── -->
+      <div class="page" id="page-attendance">
+        <div class="page-header"><h2>Attendance</h2><p>Every absence day recorded across the daycare, the children who were out, and the tuition credit each day earned. Record absences from a family's card on the Families tab — they appear here automatically.</p></div>
+        <div class="stats-grid" id="attendance-stats"></div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">👨‍👩‍👧‍👦</span> Absences by family</div>
+          <div id="attendance-by-family"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">📋</span> Absence log</div>
+          <div id="attendance-log"></div>
+          <div class="notice-box">ℹ️ Credit is what the schedule calendar billed each absent child for that day. A child out on a day their program is closed earns no credit, because nothing was charged.</div>
+        </div>
+      </div>
+
+      <!-- ─── PARENT: HOME ─── -->
+      <div class="page" id="page-parent-home">
+        <div class="parent-hero" id="parent-hero">
+          <h2 id="ph-greeting"></h2>
+          <p>Welcome to your Ateres Bnos Daycare family portal.</p>
+          <div class="parent-balance">
+            <div>
+              <div class="pb-label">Current balance</div>
+              <div class="pb-val" id="ph-balance"></div>
+            </div>
+            <div class="pb-status" id="ph-status"></div>
+          </div>
+        </div>
+        <div class="card" id="parent-children-card">
+          <div class="card-title"><span class="ct-icon">👧🧒</span> Your children</div>
+          <div id="parent-children-list"></div>
+        </div>
+      </div>
+
+      <!-- ─── PARENT: SCHEDULE ─── -->
+      <div class="page" id="page-parent-schedule">
+        <div class="page-header"><h2>Schedule</h2><p>Daycare days for your children's program(s) this school year.</p></div>
+        <div id="parent-cals"></div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">🧮</span> Your projected tuition</div>
+          <div id="parent-schedule-totals"></div>
+        </div>
+      </div>
+
+      <!-- ─── PARENT: BILLING ─── -->
+      <div class="page" id="page-parent-billing">
+        <div class="page-header"><h2>My Balance</h2><p>Your tuition breakdown for June 2025.</p></div>
+        <div class="card" id="parent-billing-card">
+          <div class="card-title"><span class="ct-icon">🧾</span> Tuition breakdown</div>
+          <div id="parent-billing-detail"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="ct-icon">💳</span> Payment info</div>
+          <p style="font-size:13.5px;color:#475569;line-height:1.7">Kindly remit your payment by one of the following payment options:</p>
+          <ul style="font-size:13.5px;color:#475569;line-height:1.9;margin:0.5rem 0 0;padding-left:1.25rem">
+            <li><strong>Credit Card Payments:</strong> <a href="https://secure.cardknox.com/ateresbnos" target="_blank" rel="noopener">Click Here</a></li>
+            <li><strong>Zelle:</strong> ateresbonois@gmail.com</li>
+            <li><strong>Check:</strong> Checks can be mailed to PO Box 337, Monsey, NY 10952 or emailed to ateresbonois@gmail.com</li>
+          </ul>
+          <p style="font-size:13.5px;color:#475569;line-height:1.7;margin-top:0.75rem">For questions regarding your balance or other payment options, please call <strong>845-675-8200 x107</strong></p>
+          <p style="font-size:13.5px;color:#475569;line-height:1.7;margin-top:0.75rem;font-weight:700;text-align:center">We appreciate your timely payment!</p>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /body-wrap -->
+</div><!-- /app -->
+
+<div class="toast" id="toast"></div>
+
+<!-- ─── FAMILY DETAIL MODAL ─── -->
+<div class="modal-overlay" id="family-modal" onclick="if(event.target===this)closeFamilyModal()">
+  <div class="modal" id="family-modal-inner"></div>
+</div>
+
+<script>
+// ════════════════ DATA ════════════════
+// The single administrator account. Email + password are matched exactly.
+const ADMIN_USER = { email:'ylev@ateresbnos.org', pass:'Ateres8200!', role:'admin', name:'Administrator' };
+// Parents sign in with the email on file for their family and their last name as
+// the password — both are validated against the families in the database
+// (see findParentFamily), so there are no hard-coded parent accounts.
+
+// ════════════════ SCHEDULE / CALENDAR CONFIG ════════════════
+// Program groups shown as calendars, in order.
+const GROUP_DEFS = [
+  { slug:'preschool',  label:'Preschool',  color:'#8B5CF6' },
+  { slug:'school-age', label:'School Age', color:'#0EA5E9' },
+];
+// Per-group daily rates (whole dollars). These are the Ateres Bnos rates and are
+// the single source of truth for billing. They start at the historical defaults
+// and are overwritten from the database (the Pricing tab) on login by loadRates().
+const RATES = { 'preschool':{full:69,part:46}, 'school-age':{full:63,part:42} };
+// The four Pricing-tab rows, in display order. Each maps a program group +
+// schedule type to its label, ages and colour dot.
+const RATE_ROWS = [
+  { group:'preschool',  schedule:'full', label:'Preschool',  ages:'3–5 years',  sched:'Full day', dot:'#8B5CF6' },
+  { group:'preschool',  schedule:'part', label:'Preschool',  ages:'3–5 years',  sched:'Part day', dot:'#8B5CF6' },
+  { group:'school-age', schedule:'full', label:'School Age', ages:'6–12 years', sched:'Full day', dot:'#0EA5E9' },
+  { group:'school-age', schedule:'part', label:'School Age', ages:'6–12 years', sched:'Part day', dot:'#0EA5E9' },
+];
+const STATUS_OPTS = [['full','Full'],['part','Part'],['closed','Closed']];
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+// ════════════════ STATE ════════════════
+let currentUser = null;
+// Saved calendar days: key `${group}|${YYYY-MM-DD}` -> { status, notes }
+const scheduleState = new Map();
+// DSS daily rates (whole dollars): key `${group}|${schedule}` -> amount. Stored
+// and shown on the Pricing tab only; they do not affect billing.
+const dssRates = new Map();
+// Created enrollment periods (school years), each { id, startYear }. Drives both
+// the span of the schedule calendar and which years a child can be billed for.
+let periodsState = [];
+// Period (September start year) the dashboard is filtered to, or null for "all
+// periods". Reset to the current period on every login.
+let dashboardPeriod = null;
+// Period the open family account modal is filtered to, or null for "all". Reset
+// to the current period each time a family account is opened.
+let familyModalPeriod = null;
+// Currently displayed month per group, as a 0–11 offset into the school year.
+const calOffset = { 'preschool':0, 'school-age':0 };
+// Roster used for the admin schedule totals (from the database, or the sample).
+let adminRoster = [];
+// All recorded payments (raw rows from the database) and their per-family totals.
+let paymentRecords = [];
+const paymentTotals = new Map(); // familyCode -> total paid (whole dollars)
+// All recorded absence days (raw rows from the database). Each is
+// { id, familyCode, date, childNames:[...] }; the billing credit is derived
+// from the absent children's daily rates against the live roster.
+let absenceRecords = [];
+
+// ════════════════ LOGIN ════════════════
+// A family's "last name" used as the parent password: the family name with a
+// trailing "Family" word removed, e.g. "Cohen Family" -> "Cohen".
+function familyLastName(f){
+  return String(f && f.name || '').replace(/\s*family\s*$/i, '').trim();
+}
+
+// Look up a parent by the email on file and validate their last-name password
+// against the families in the database. Returns the matching family or null.
+async function findParentFamily(email, pass){
+  const fams = await fetchRoster();
+  const match = fams.find(f => (f.email || '').trim().toLowerCase() === email);
+  if(!match) return null;
+  const last = familyLastName(match);
+  if(last && pass.trim().toLowerCase() === last.toLowerCase()) return match;
+  return null;
+}
+
+async function doLogin() {
+  const email = document.getElementById('li-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('li-pass').value;
+  const errEl = document.getElementById('login-error');
+  errEl.style.display='none';
+
+  // Administrator — exact email + password match.
+  if (email === ADMIN_USER.email && pass === ADMIN_USER.pass) {
+    currentUser = { email: ADMIN_USER.email, role:'admin', name: ADMIN_USER.name };
+    localStorage.setItem('dc_session', JSON.stringify(currentUser));
+    launchApp();
+    return;
+  }
+
+  // Parent — match the email on file with the last-name password.
+  const fam = await findParentFamily(email, pass);
+  if (fam) {
+    currentUser = { email, role:'parent', name: fam.name, familyCode: fam.familyCode || '' };
+    localStorage.setItem('dc_session', JSON.stringify(currentUser));
+    launchApp();
+    return;
+  }
+
+  errEl.style.display='block';
+}
+
+function doLogout() {
+  currentUser = null;
+  localStorage.removeItem('dc_session');
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('landing-screen').style.display='flex';
+  document.getElementById('li-pass').value='';
+}
+
+// Reveal the sign-in form from the landing page.
+function showLogin() {
+  document.getElementById('landing-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('li-email').focus();
+}
+
+// ════════════════ APP LAUNCH ════════════════
+async function launchApp() {
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('topbar-username').textContent = currentUser.name;
+  // Cover the app with a "please wait" overlay until the live data is loaded and
+  // the first page has rendered, so an empty shell never looks like a malfunction.
+  const loading = document.getElementById('app-loading');
+  loading.classList.add('active');
+  try {
+    await loadPeriods();
+    initCalOffset();
+    await loadSchedule();
+    await loadPayments();
+    await loadAbsences();
+    await loadRates();
+    renderPricing();
+    if (currentUser.role==='admin') {
+      document.getElementById('role-badge').textContent='Admin';
+      document.getElementById('role-badge').className='role-badge badge-admin';
+      document.getElementById('admin-nav').style.display='block';
+      document.getElementById('parent-nav').style.display='none';
+      // Default the dashboard to the current period on every login.
+      dashboardPeriod = defaultPeriodYear();
+      // Load the live roster from the database before the first render so the
+      // dashboard shows the current families immediately, with no placeholder flash.
+      adminRoster = [];
+      await loadFamilies();
+      buildAdminSchedule();
+      activateFirstNavItem('admin-nav');
+      showPage('dashboard', document.querySelector('#admin-nav .nav-item'));
+    } else {
+      document.getElementById('role-badge').textContent='Parent';
+      document.getElementById('role-badge').className='role-badge badge-parent';
+      document.getElementById('parent-nav').style.display='block';
+      document.getElementById('admin-nav').style.display='none';
+      await buildParentView();
+      activateFirstNavItem('parent-nav');
+      showPage('parent-home', document.querySelector('#parent-nav .nav-item'));
+    }
+  } finally {
+    loading.classList.remove('active');
+  }
+}
+
+function activateFirstNavItem(navId) {
+  document.querySelectorAll(`#${navId} .nav-item`).forEach((el,i)=>{
+    el.classList.toggle('active', i===0);
+  });
+}
+
+// ════════════════ NAVIGATION ════════════════
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const pg = document.getElementById('page-'+id);
+  if(pg) pg.classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+// ════════════════ SCHEDULE CALENDARS ════════════════
+// The school year runs September → August. Pick the year whose September has
+// already started relative to today so the current month is always in range.
+function schoolYearStart(){
+  const now = new Date();
+  return now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1;
+}
+// Display name for a period, e.g. 2025 -> "2025 - 2026".
+function periodName(startYear){ return startYear + ' - ' + (startYear + 1); }
+// The period start years the calendar covers, oldest first. Each created period
+// contributes a 12-month (September→August) block. With no periods created yet,
+// the calendar shows the current school year so the tab is never empty.
+function calendarYears(){
+  const ys = periodsState.map(p => p.startYear).sort((a, b) => a - b);
+  return ys.length ? ys : [schoolYearStart()];
+}
+// Highest valid calendar offset: 12 months per created period, minus one.
+function maxOffset(){ return calendarYears().length * 12 - 1; }
+function monthForOffset(i){
+  const years = calendarYears();
+  const pi = Math.max(0, Math.min(years.length - 1, Math.floor(i / 12)));
+  const mi = ((i % 12) + 12) % 12;
+  const year = years[pi];
+  return { y: year + Math.floor((8 + mi) / 12), m: (8 + mi) % 12 };
+}
+// The period (start year) the calendar is showing at a given offset.
+function periodForOffset(i){
+  const years = calendarYears();
+  return years[Math.max(0, Math.min(years.length - 1, Math.floor(i / 12)))];
+}
+function currentOffset(){
+  const years = calendarYears();
+  const now = new Date();
+  const sy = now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1;
+  const idx = years.indexOf(sy);
+  if(idx < 0) return sy < years[0] ? 0 : maxOffset();
+  const m = (now.getFullYear() - sy) * 12 + (now.getMonth() - 8);
+  return idx * 12 + Math.min(11, Math.max(0, m));
+}
+function initCalOffset(){
+  const o = currentOffset();
+  calOffset['preschool'] = o;
+  calOffset['school-age'] = o;
+}
+function isoDay(y, m, d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+function keyOf(group, day){ return group + '|' + day; }
+
+// Load every saved calendar day from the database into scheduleState.
+async function loadSchedule(){
+  try {
+    const res = await fetch('/api/schedule');
+    if(!res.ok) return;
+    const data = await res.json();
+    scheduleState.clear();
+    (data.days || []).forEach(d => scheduleState.set(keyOf(d.group, d.day), { status:d.status, notes:d.notes || '' }));
+  } catch(e) { /* offline — keep whatever is in memory */ }
+}
+
+// Persist one day's setting/note, updating local state immediately.
+async function saveDay(group, day, patch){
+  const k = keyOf(group, day);
+  const cur = scheduleState.get(k) || { status:null, notes:'' };
+  const next = {
+    status: patch.status !== undefined ? patch.status : cur.status,
+    notes:  patch.notes  !== undefined ? patch.notes  : cur.notes,
+  };
+  scheduleState.set(k, next);
+  try {
+    await fetch('/api/schedule', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ group, day, status: next.status, notes: next.notes }),
+    });
+  } catch(e) { showToast('Could not save — check your connection.'); }
+}
+
+// Render a single month for one group. `editable` controls whether the day
+// settings and notes can be changed (admin) or are read-only (parent).
+function renderCalendar(group, editable){
+  const def = GROUP_DEFS.find(g => g.slug === group) || GROUP_DEFS[0];
+  const off = calOffset[group];
+  const { y, m } = monthForOffset(off);
+  const firstDow = new Date(y, m, 1).getDay();
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+
+  let cells = '';
+  for(let i = 0; i < firstDow; i++) cells += '<div class="cal-cell empty"></div>';
+  for(let d = 1; d <= daysInMonth; d++){
+    const day = isoDay(y, m, d);
+    const st = scheduleState.get(keyOf(group, day)) || { status:null, notes:'' };
+    const cls = st.status ? ' s-' + st.status : '';
+    const opts = STATUS_OPTS.map(([val,lbl]) => {
+      const on = st.status === val ? ' on-' + val : '';
+      const click = editable ? ` onclick="setDay('${group}','${day}','${val}')"` : '';
+      return `<button class="cal-opt${on}"${click}>${lbl}</button>`;
+    }).join('');
+    const noteAttr = editable
+      ? ` onchange="setNote('${group}','${day}',this.value)"`
+      : ' readonly';
+    cells += `<div class="cal-cell${cls}${editable ? '' : ' readonly'}">
+      <div class="cal-date">${d}</div>
+      <div class="cal-opts">${opts}</div>
+      <input class="cal-note" placeholder="Notes…" value="${esc(st.notes)}"${noteAttr} />
+    </div>`;
+  }
+  const dows = DOW.map(d => `<div class="cal-dow">${d}</div>`).join('');
+  return `
+    <div class="cal-head">
+      <div class="cal-title"><span class="sch-dot" style="background:${def.color}"></span>${def.label} calendar<span class="cal-period">${periodName(periodForOffset(off))}</span></div>
+      <div class="cal-nav">
+        <button ${off <= 0 ? 'disabled' : ''} onclick="moveCal('${group}',-1,${editable})">‹</button>
+        <span class="cal-month">${MONTH_NAMES[m]} ${y}</span>
+        <button ${off >= maxOffset() ? 'disabled' : ''} onclick="moveCal('${group}',1,${editable})">›</button>
+      </div>
+    </div>
+    <div class="cal-legend">
+      <span><i class="lg-dot lg-full"></i> Full day</span>
+      <span><i class="lg-dot lg-part"></i> Part day</span>
+      <span><i class="lg-dot lg-closed"></i> Closed</span>
+    </div>
+    <div class="cal-grid">${dows}${cells}</div>`;
+}
+
+function buildAdminSchedule(){
+  renderPeriods();
+  GROUP_DEFS.forEach(g => {
+    document.getElementById('cal-' + g.slug).innerHTML = renderCalendar(g.slug, true);
+  });
+  refreshDerived();
+}
+
+function moveCal(group, delta, editable){
+  calOffset[group] = Math.min(maxOffset(), Math.max(0, calOffset[group] + delta));
+  const id = editable ? 'cal-' + group : 'pcal-' + group;
+  const el = document.getElementById(id);
+  if(el) el.innerHTML = renderCalendar(group, editable);
+}
+
+function setDay(group, day, status){
+  saveDay(group, day, { status });
+  const el = document.getElementById('cal-' + group);
+  if(el) el.innerHTML = renderCalendar(group, true);
+  refreshDerived();
+}
+
+function setNote(group, day, value){
+  saveDay(group, day, { notes: value });
+}
+
+// ════════════════ PERIODS ════════════════
+// Load every created period from the database into periodsState.
+async function loadPeriods(){
+  try {
+    const res = await fetch('/api/periods');
+    if(!res.ok) return;
+    const data = await res.json();
+    periodsState = (data.periods || []).map(p => ({ id:p.id, startYear:p.startYear }));
+  } catch(e) { /* offline — keep whatever is in memory */ }
+}
+
+// The next period to create: the year after the latest created period, or the
+// current school year when none exist yet.
+function nextPeriodYear(){
+  const ys = periodsState.map(p => p.startYear);
+  return ys.length ? Math.max(...ys) + 1 : schoolYearStart();
+}
+
+// Render the Periods card on the Schedule tab — the created periods and a button
+// to add the next consecutive one.
+function renderPeriods(){
+  const el = document.getElementById('periods-list');
+  if(!el) return;
+  const ys = calendarYears();
+  const chips = periodsState.length
+    ? periodsState.slice().sort((a,b)=>a.startYear-b.startYear)
+        .map(p => `<span class="period-chip">${periodName(p.startYear)}</span>`).join('')
+    : '<span class="period-empty">No periods yet — add one to start the calendar.</span>';
+  el.innerHTML = chips;
+  const btn = document.getElementById('add-period-btn');
+  if(btn) btn.textContent = '➕ Add ' + periodName(nextPeriodYear()) + ' period';
+}
+
+// Create the next consecutive period, extend the calendar to cover it, and
+// refresh every screen that depends on the period span.
+async function addNextPeriod(){
+  const startYear = nextPeriodYear();
+  const btn = document.getElementById('add-period-btn');
+  if(btn) btn.disabled = true;
+  try {
+    const res = await fetch('/api/periods', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ startYear }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    await loadPeriods();
+    renderPeriods();
+    buildAdminSchedule();
+    showToast('Period ' + periodName(startYear) + ' added.');
+  } catch(e){
+    showToast('Could not add period: ' + e.message);
+  } finally {
+    if(btn) btn.disabled = false;
+  }
+}
+
+// ════════════════ RATES (Pricing tab) ════════════════
+// Load the Ateres Bnos and DSS rates from the database. The Ateres Bnos rates
+// overwrite the in-memory RATES used for billing so the Pricing tab stays the
+// single source of truth; DSS rates are kept separately for display only.
+async function loadRates(){
+  try {
+    const res = await fetch('/api/rates');
+    if(!res.ok) return;
+    const data = await res.json();
+    (data.rates || []).forEach(r => {
+      if(!RATES[r.group]) RATES[r.group] = { full:0, part:0 };
+      RATES[r.group][r.schedule] = r.ateresRate;
+      dssRates.set(r.group + '|' + r.schedule, r.dssRate);
+    });
+  } catch(e) { /* offline — keep the default rates already in memory */ }
+}
+
+// Draw the Pricing tab rows from the current rates, each with an editable input
+// for the Ateres Bnos rate and the DSS rate.
+function renderPricing(){
+  const tbody = document.getElementById('pricing-rows');
+  if(!tbody) return;
+  tbody.innerHTML = RATE_ROWS.map(d => {
+    const ateres = (RATES[d.group] || {})[d.schedule] || 0;
+    const dss = dssRates.get(d.group + '|' + d.schedule) || 0;
+    const input = (field, val) =>
+      `<span class="rate-input-wrap"><span class="rate-currency">$</span>`
+      + `<input class="rate-input" type="number" min="0" step="1" value="${val}" `
+      + `onchange="saveRate('${d.group}','${d.schedule}','${field}',this.value)"></span>`;
+    return `<tr>
+      <td><span class="group-dot" style="background:${d.dot}"></span>${d.label}</td>
+      <td>${d.ages}</td>
+      <td>${d.sched}</td>
+      <td>${input('ateresRate', ateres)}</td>
+      <td>${input('dssRate', dss)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// Persist one edited rate. Updates local state immediately (so billing reflects a
+// changed Ateres Bnos rate right away) and saves to the database in the background.
+async function saveRate(group, schedule, field, value){
+  const amount = Math.max(0, Math.round(parseFloat(value) || 0));
+  if(field === 'ateresRate'){
+    if(!RATES[group]) RATES[group] = { full:0, part:0 };
+    RATES[group][schedule] = amount;
+  } else {
+    dssRates.set(group + '|' + schedule, amount);
+  }
+  renderPricing();
+  try {
+    const res = await fetch('/api/rates', {
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ group, schedule, [field]: amount }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    showToast('Rate updated.');
+  } catch(e){
+    showToast('Could not save rate: ' + e.message);
+  }
+}
+
+// ── Tuition totals derived from the calendar ──
+// Normalize a date string to ISO "YYYY-MM-DD". Calendar days are stored as ISO,
+// but imported start/end dates often arrive in US "M/D/YYYY" form (e.g.
+// "9/1/2025"). Those must be converted before any < / > comparison, because a
+// lexicographic compare of "2025-09-01" against "9/1/2025" is always "less than"
+// (the digit "2" sorts before "9"), which would silently treat every child as
+// not-yet-started and bill them for nothing. Returns '' for blank/unparseable
+// input and passes already-ISO values through unchanged.
+function isoDate(s){
+  s = String(s == null ? '' : s).trim();
+  if(!s) return '';
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;                 // already ISO
+  let m = s.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})$/); // M/D/YYYY
+  if(m) return `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+  m = s.match(/^(\d{4})[\/.\-](\d{1,2})[\/.\-](\d{1,2})$/);     // YYYY/M/D
+  if(m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+  return s;
+}
+// Whether a child is enrolled (and so billable) on a given ISO day, based on the
+// child's start/end dates. Both bounds are normalized to ISO so they compare
+// correctly with < / >. An empty start or end date means no bound on that side.
+function childActiveOn(c, day){
+  const s = isoDate((c && c.startDate) || '');
+  const e = isoDate((c && c.endDate) || '');
+  if(s && day < s) return false;
+  if(e && day > e) return false;
+  return true;
+}
+// The school year (September start year) an ISO day belongs to: September–December
+// belong to that calendar year; January–August belong to the year before. Used to
+// match a calendar day against a child's assigned periods.
+function schoolYearOfDay(day){
+  const p = String(day).split('-');
+  const y = parseInt(p[0], 10), m = parseInt(p[1], 10);
+  if(!y || !m) return null;
+  return m >= 9 ? y : y - 1;
+}
+// A child's assigned period start years.
+function childPeriods(c){ return Array.isArray(c && c.periods) ? c.periods : []; }
+// Whether an ISO day falls inside the period filter (a September start year), or
+// `null`/undefined to mean "all periods" (no restriction).
+function inPeriodFilter(day, periodYear){
+  return periodYear == null || schoolYearOfDay(day) === periodYear;
+}
+// The period to select by default — the current school year if a period exists
+// for it, otherwise the latest created period, or null (all) when none exist.
+function defaultPeriodYear(){
+  const ys = periodsState.map(p => p.startYear);
+  if(!ys.length) return null;
+  const sy = schoolYearStart();
+  if(ys.indexOf(sy) !== -1) return sy;
+  return Math.max(...ys);
+}
+// <option> list for a period dropdown: "All periods" plus every created period,
+// marking `selected` (a start year, or null for All).
+function periodOptionsHtml(selected){
+  const ys = periodsState.map(p => p.startYear).sort((a,b)=>a-b);
+  const opts = ys.map(y => `<option value="${y}"${y===selected?' selected':''}>${periodName(y)}</option>`);
+  return `<option value="all"${selected==null?' selected':''}>All periods</option>` + opts.join('');
+}
+// The first calendar day of a period (school year): September 1 of its start
+// year, matching how a period is defined (Sept 1 of startYear through Aug 31).
+function periodFirstDay(startYear){ return startYear + '-09-01'; }
+// The start date to print for a child on a contract: the child's own custom
+// enrollment start date when set, otherwise the first day of the relevant
+// period. For a single-period contract that is that period's first day; for an
+// "all periods" contract it is the first day of the earliest period the child
+// is assigned to. Returns '' only when neither a custom date nor a period exists.
+function childContractStartDate(c, periodYear){
+  const custom = isoDate((c && c.startDate) || '');
+  if(custom) return custom;
+  if(periodYear != null) return periodFirstDay(periodYear);
+  const ps = childPeriods(c);
+  return ps.length ? periodFirstDay(Math.min.apply(null, ps)) : '';
+}
+// Whether a child is billable on an ISO day: the day must fall in one of the
+// child's assigned periods AND within any custom start/end enrollment dates. A
+// child with no period assigned is billed for nothing.
+function childBillableOn(c, day){
+  if(!childActiveOn(c, day)) return false;
+  const ps = childPeriods(c);
+  if(!ps.length) return false;
+  const sy = schoolYearOfDay(day);
+  return sy != null && ps.indexOf(sy) !== -1;
+}
+// The last calendar day of a period (school year): August 31 of the year after
+// its September start, matching how a period runs (Sept 1 startYear → Aug 31).
+function periodLastDay(startYear){ return (startYear + 1) + '-08-31'; }
+// The Ateres Bnos and DSS daily rates for a program group + schedule type
+// ('full' | 'part'), in whole dollars.
+function ateresRate(group, sched){ return (RATES[group] || {})[sched] || 0; }
+function dssRate(group, sched){ return dssRates.get(group + '|' + sched) || 0; }
+// A child's CCAP approval record for a given period (September start year), or
+// null if the child is not CCAP-approved for that period.
+function childCcapForPeriod(c, periodYear){
+  const arr = Array.isArray(c && c.ccap) ? c.ccap : [];
+  return arr.find(a => a.period === periodYear) || null;
+}
+// Whether an ISO day falls inside the child's CCAP approval window for the period
+// that day belongs to. An empty start date means the window opens at the period's
+// first day; an empty end date means it runs through the period's last day.
+function dayIsCcap(c, day){
+  const sy = schoolYearOfDay(day);
+  if(sy == null) return false;
+  const ap = childCcapForPeriod(c, sy);
+  if(!ap) return false;
+  const s = isoDate(ap.startDate || '') || periodFirstDay(sy);
+  const e = isoDate(ap.endDate || '')   || periodLastDay(sy);
+  return day >= s && day <= e;
+}
+// The dollar value one child is billed for one scheduled day: the DSS rate when
+// the child is CCAP-approved on that day, otherwise the Ateres Bnos rate; nothing
+// on closed/unset days. This is exactly what an absence on that day credits back.
+function childDayRate(c, day){
+  const st = scheduleStatusFor(c.group, day);
+  if(st !== 'full' && st !== 'part') return 0;
+  return dayIsCcap(c, day) ? dssRate(c.group, st) : ateresRate(c.group, st);
+}
+// Full/part scheduled-day counts for one child: the marked days in the child's
+// program group, counting only days the child is billable for (assigned period
+// and within the child's enrollment range). An optional `periodYear` restricts
+// the count to a single period (school year); null = every period. `ccapFull` and
+// `ccapPart` are the subsets of those days that fall in a CCAP approval window,
+// which are billed at the DSS rate rather than the Ateres Bnos rate.
+function childDayCounts(c, periodYear){
+  let full = 0, part = 0, ccapFull = 0, ccapPart = 0;
+  const prefix = c.group + '|';
+  scheduleState.forEach((v, k) => {
+    if(k.indexOf(prefix) !== 0) return;
+    const day = k.slice(prefix.length);
+    if(!childBillableOn(c, day)) return;
+    if(!inPeriodFilter(day, periodYear)) return;
+    const ccap = dayIsCcap(c, day);
+    if(v.status === 'full'){ full++; if(ccap) ccapFull++; }
+    else if(v.status === 'part'){ part++; if(ccap) ccapPart++; }
+  });
+  return { full, part, ccapFull, ccapPart };
+}
+// Tuition one child owes: their active scheduled days valued at the group rate,
+// optionally limited to a single period (school year). CCAP-approved days are
+// valued at the DSS rate; all other days at the Ateres Bnos rate.
+function childTuition(c, periodYear){
+  const n = childDayCounts(c, periodYear);
+  const af = ateresRate(c.group, 'full'), ap = ateresRate(c.group, 'part');
+  const df = dssRate(c.group, 'full'),    dp = dssRate(c.group, 'part');
+  return (n.full - n.ccapFull) * af + n.ccapFull * df
+       + (n.part - n.ccapPart) * ap + n.ccapPart * dp;
+}
+function renderTotalsTable(roster){
+  if(!roster.length) return '<p style="font-size:13px;color:#64748B">No families to total yet.</p>';
+  let grand = 0, rows = '';
+  roster.forEach(f => {
+    let famTotal = 0;
+    const childRows = f.children.map(c => {
+      const counts = childDayCounts(c);
+      const t = childTuition(c);
+      famTotal += t;
+      return `<tr><td style="padding-left:24px;color:#475569">${esc(c.name)}</td><td>${GROUP_LABELS[c.group] || c.group}</td><td>${counts.full}</td><td>${counts.part}</td><td class="price-hl">$${t.toLocaleString()}</td></tr>`;
+    }).join('');
+    grand += famTotal;
+    rows += childRows + `<tr class="fam-total-row"><td>${esc(famDisplayName(f))} — family total</td><td></td><td></td><td></td><td>$${famTotal.toLocaleString()}</td></tr>`;
+  });
+  return `<table>
+    <thead><tr><th>Family / Child</th><th>Program</th><th>Full days</th><th>Part days</th><th>Tuition</th></tr></thead>
+    <tbody>${rows}<tr class="sch-total-foot"><td>All families</td><td></td><td></td><td></td><td>$${grand.toLocaleString()}</td></tr></tbody>
+  </table>`;
+}
+function renderScheduleTotals(){
+  const el = document.getElementById('schedule-totals');
+  if(el) el.innerHTML = renderTotalsTable(adminRoster);
+}
+
+// Tuition a single family owes based on the schedule calendar, summed over each
+// child's active enrollment range. An optional `periodYear` limits the total to
+// a single period (school year); null = every period.
+function familyTuition(f, periodYear){
+  return (f.children || []).reduce((sum, c) => sum + childTuition(c, periodYear), 0);
+}
+// Balance pill from a schedule-derived amount due (always ≥ 0).
+function tuitionPill(amt){
+  if(amt > 0) return { cls:'pill-red', txt:'$'+amt.toLocaleString()+' due' };
+  return { cls:'pill-green', txt:'$0.00' };
+}
+
+// Family name with its Family ID appended, e.g. "Martinez Family - F-1024".
+function famDisplayName(f){
+  return f.familyCode ? `${f.name} - ${f.familyCode}` : f.name;
+}
+// Total payments recorded for a family (matched by Family ID).
+function familyPayments(f){
+  return f.familyCode ? (paymentTotals.get(f.familyCode) || 0) : 0;
+}
+// Absence days recorded for a family, oldest first.
+function familyAbsences(f){
+  if(!f.familyCode) return [];
+  return absenceRecords
+    .filter(a => a.familyCode === f.familyCode)
+    .slice()
+    .sort((a,b) => (a.date||'').localeCompare(b.date||'') || (a.id-b.id));
+}
+// A child's daily rate: the per-child rate imported with the roster when present,
+// otherwise the full daily rate for the child's program group (the same RATES
+// table the rest of the billing uses). Imported rosters often omit a per-child
+// rate column, leaving dailyRate at 0 — fall back to the group rate so the
+// "$X/day" rate labels shown around the app are never silently zero.
+function childDailyRate(c){
+  if(c && c.dailyRate) return c.dailyRate;
+  return (RATES[c && c.group] || { full:0 }).full;
+}
+// The calendar setting for a program group on a given day: 'full' | 'part' |
+// 'closed'. Days the office never touched have no row and count as closed.
+function scheduleStatusFor(group, day){
+  const st = (scheduleState.get(keyOf(group, day)) || {}).status;
+  return (st === 'full' || st === 'part') ? st : 'closed';
+}
+// Absence credit for a single day: the sum, over the absent children, of what
+// the schedule calendar billed each child on that date (DSS rate for a child
+// CCAP-approved that day, otherwise the Ateres Bnos rate). A child who was out on
+// a day their program is closed earns no credit, because nothing was charged.
+function absenceCredit(f, a){
+  const names = a.childNames || [];
+  return names.reduce((sum, name) => {
+    const kid = (f.children || []).find(c => c.name === name);
+    // No credit for a day the child wasn't billable for — nothing was charged.
+    return sum + (kid && childBillableOn(kid, a.date) ? childDayRate(kid, a.date) : 0);
+  }, 0);
+}
+// Per-child absence summary for a contract: how many days this child was marked
+// absent (within the period filter and only on days the child was billable) and
+// the tuition credit those days earn. Summing this across a family's children
+// equals familyAbsenceCredit, so contract subtotals stay consistent with the
+// balances shown elsewhere.
+function childAbsenceInfo(f, c, periodYear){
+  let days = 0, credit = 0;
+  familyAbsences(f).forEach(a => {
+    if(!inPeriodFilter(a.date, periodYear)) return;
+    if(!(a.childNames || []).includes(c.name)) return;
+    if(!childBillableOn(c, a.date)) return;
+    days++;
+    credit += childDayRate(c, a.date);
+  });
+  return { days, credit };
+}
+// Total absence credit for a family across all its recorded absence days,
+// optionally limited to days that fall in a single period (school year).
+function familyAbsenceCredit(f, periodYear){
+  return familyAbsences(f).reduce(
+    (sum, a) => sum + (inPeriodFilter(a.date, periodYear) ? absenceCredit(f, a) : 0),
+    0,
+  );
+}
+// Tuition actually owed after removing the days children were absent, optionally
+// limited to a single period (school year).
+function familyNetTuition(f, periodYear){
+  return familyTuition(f, periodYear) - familyAbsenceCredit(f, periodYear);
+}
+// Current balance = net tuition owed (after absences) minus payments received.
+// This is always the family's CUMULATIVE balance across every period — open
+// balances from earlier periods roll over — so it never takes a period filter.
+// Positive = owed, 0 = settled, negative = paid ahead (credit).
+function familyBalance(f){
+  return familyNetTuition(f) - familyPayments(f);
+}
+// Balance pill that accounts for payments (supports credit).
+function balancePillAmt(amt){
+  if(amt > 0) return { cls:'pill-red',   txt:'$'+amt.toLocaleString()+' due' };
+  if(amt < 0) return { cls:'pill-gray',  txt:'+$'+Math.abs(amt).toLocaleString()+' credit' };
+  return                { cls:'pill-green', txt:'$0.00' };
+}
+
+// Re-render every screen whose numbers come from the schedule calendar, so the
+// Families grid, Billing tab, Schedule totals and Dashboard all stay in sync.
+function refreshDerived(){
+  renderScheduleTotals();
+  renderFamiliesGrid();
+  renderBilling();
+  renderPayments();
+  renderAttendance();
+  renderContracts();
+  updateDashboardCounts();
+}
+
+// ════════════════ PARENT VIEW ════════════════
+// The signed-in parent's family, loaded fresh from the database each time the
+// parent view is built (on login and on session restore).
+let parentFamily = null;
+
+async function buildParentView() {
+  const fams = await fetchRoster();
+  const email = (currentUser.email || '').trim().toLowerCase();
+  const fam = fams.find(f =>
+    (currentUser.familyCode && f.familyCode === currentUser.familyCode) ||
+    (f.email || '').trim().toLowerCase() === email
+  );
+  if(!fam){
+    // The family is no longer on file — end the session rather than show stale data.
+    showToast('Your account is no longer on file. Please contact the office.');
+    doLogout();
+    return;
+  }
+  parentFamily = fam;
+
+  document.getElementById('ph-greeting').textContent = `Welcome, ${fam.name}`;
+  document.getElementById('topbar-username').textContent = fam.name;
+  const parentFam = fam;
+  const owed = familyNetTuition(parentFam);
+  const paid = familyPayments(parentFam);
+  const due = owed - paid;
+  document.getElementById('ph-balance').textContent = due > 0
+    ? '$'+due.toLocaleString()+'.00 due'
+    : due < 0 ? '+$'+Math.abs(due).toLocaleString()+'.00 credit' : '$0.00';
+  const hero = document.getElementById('parent-hero');
+  if(due > 0) { hero.style.background='linear-gradient(135deg,#DC2626,#B91C1C)'; }
+  else        { hero.style.background='linear-gradient(135deg,#2C7BE5,#1B63C8)'; }
+  document.getElementById('ph-status').textContent = due > 0
+    ? 'Balance due after payments received.'
+    : due < 0 ? 'Credit on account — paid ahead.' : 'Paid in full — thank you!';
+
+  const cl = document.getElementById('parent-children-list');
+  cl.innerHTML = fam.children.map(c=>{
+    const badge = GROUP_BADGES[c.group] || 'b-preschool';
+    const label = GROUP_LABELS[c.group] || 'Preschool';
+    const dob = c.dob ? ' · '+esc(c.dob) : '';
+    const rate = childDailyRate(c) ? '$'+childDailyRate(c)+'/day' : '';
+    return `<div class="child-row">
+      <div class="child-left"><span class="child-name">${esc(c.name)}</span><span class="age-badge ${badge}">${label}${dob}</span></div>
+      <span class="child-rate">${rate}</span>
+    </div>`;
+  }).join('');
+
+  const pgroups = [...new Set(fam.children.map(c => c.group))];
+  const pwrap = document.getElementById('parent-cals');
+  pwrap.innerHTML = pgroups.map(g => `<div class="cal-card" id="pcal-${g}"></div>`).join('');
+  pgroups.forEach(g => { document.getElementById('pcal-' + g).innerHTML = renderCalendar(g, false); });
+
+  document.getElementById('parent-schedule-totals').innerHTML = renderTotalsTable([parentFam]);
+
+  const bd = document.getElementById('parent-billing-detail');
+  const rows = parentFam.children.map(c=>{
+    const counts = childDayCounts(c);
+    const t = childTuition(c);
+    return [c.name, `${GROUP_LABELS[c.group]||c.group}${c.dob?' · '+c.dob:''}`,
+      `${counts.full} full + ${counts.part} part day${counts.full+counts.part===1?'':'s'} scheduled`,
+      `$${t.toLocaleString()}.00`, ''];
+  });
+  rows.push(['Scheduled tuition','','', `$${owed.toLocaleString()}.00`, '']);
+  rows.push(['Payments received','','', paid>0?`–$${paid.toLocaleString()}.00`:'$0.00', '']);
+  rows.push(['Balance due','','', due<0?`+$${Math.abs(due).toLocaleString()}.00 credit`:`$${due.toLocaleString()}.00`, due>0?'overdue':'paid']);
+  bd.innerHTML = rows.map(([name,detail,calc,amount,flag])=>{
+    const isBold = name==='Balance due';
+    const amtColor = flag==='overdue' ? '#DC2626' : flag==='paid' ? '#16A34A' : '#334155';
+    return `<div class="bill-row">
+      <div class="bill-left" style="flex-direction:column;align-items:flex-start;gap:2px">
+        <div class="bill-name" style="font-size:13.5px;${isBold?'':'font-weight:400'}">${name}</div>
+        ${detail?`<div class="bill-detail">${detail}</div>`:''}
+        ${calc?`<div class="bill-detail">${calc}</div>`:''}
+      </div>
+      <div class="bill-amt" style="color:${amtColor};white-space:nowrap">${amount}</div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════ FAMILIES FILTER ════════════════
+let activeGroup = 'all';
+function filterFamilies() {
+  const q = document.getElementById('fam-search').value.toLowerCase();
+  document.querySelectorAll('#families-grid .family-card').forEach(c=>{
+    const nameMatch  = c.dataset.name.includes(q);
+    const groupMatch = activeGroup==='all' || (c.dataset.groups||'').includes(activeGroup);
+    c.style.display = (nameMatch && groupMatch) ? '' : 'none';
+  });
+}
+function setGroupFilter(el, group) {
+  document.querySelectorAll('.tag-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  activeGroup = group;
+  filterFamilies();
+}
+
+// ════════════════ TOAST ════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ════════════════ FAMILY DATA (from database) ════════════════
+const AVATAR_CLASSES = ['av-blue','av-teal','av-amber','av-coral','av-purple'];
+const GROUP_BADGES = { preschool:'b-preschool', 'school-age':'b-schoolage' };
+const GROUP_LABELS = { preschool:'Preschool', 'school-age':'School Age' };
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function initials(name){
+  const letters = name.replace(/family/i,'').trim().split(/\s+/).map(w=>w[0]||'').join('');
+  return (letters.slice(0,2) || '?').toUpperCase();
+}
+function balancePill(b){
+  if(b < 0) return { cls:'pill-red',  txt:'–$'+Math.abs(b).toLocaleString() };
+  if(b > 0) return { cls:'pill-gray', txt:'+$'+b.toLocaleString()+' credit' };
+  return        { cls:'pill-green', txt:'$0.00' };
+}
+
+// Map a raw API family record into the roster shape used across the app.
+function mapFamily(f){
+  return {
+    familyCode: f.familyCode || '',
+    name: f.name,
+    contactName: f.contactName || '',
+    email: f.email || '',
+    phone: f.phone || '',
+    address: f.address || '',
+    avatarClass: null,
+    children: (f.children || []).map(c => ({ id:c.id, name:c.name, group:c.group, dob:c.dob, dailyRate:c.dailyRate, startDate:isoDate(c.startDate||''), endDate:isoDate(c.endDate||''), periods: Array.isArray(c.periods) ? c.periods : [], ccap: Array.isArray(c.ccap) ? c.ccap : [] })),
+  };
+}
+
+// Fetch the imported roster from the database, mapped to the roster shape.
+async function fetchRoster(){
+  try {
+    const res = await fetch('/api/families');
+    if(res.ok){ const data = await res.json(); return ((data && data.families) || []).map(mapFamily); }
+  } catch(e) { /* offline — caller falls back as appropriate */ }
+  return [];
+}
+
+// Load the roster for the admin from the database. It is the source of truth for
+// every schedule-driven screen; when no families are on file the roster is empty
+// and each screen shows its empty state.
+async function loadFamilies(){
+  const fams = await fetchRoster();
+  adminRoster = fams;
+  refreshDerived();
+}
+
+// Render the Families grid from the current roster, keeping the active filter.
+function renderFamiliesGrid(){
+  const el = document.getElementById('families-grid');
+  if(!el) return;
+  if(!adminRoster.length){
+    el.innerHTML = '<p style="grid-column:1/-1;font-size:13px;color:#64748B">No families enrolled yet. Import your roster from the Import Data tab.</p>';
+    return;
+  }
+  el.innerHTML = adminRoster.map(renderFamilyCard).join('');
+  filterFamilies();
+}
+
+function renderFamilyCard(f, i){
+  const av = f.avatarClass || AVATAR_CLASSES[i % AVATAR_CLASSES.length];
+  const pill = balancePillAmt(familyBalance(f));
+  const groups = [...new Set(f.children.map(c=>c.group))].join(' ');
+  const kids = f.children.map(c=>{
+    const badge = GROUP_BADGES[c.group] || 'b-preschool';
+    const label = GROUP_LABELS[c.group] || 'Preschool';
+    const dob = c.dob ? ' · '+esc(c.dob) : '';
+    const rate = childDailyRate(c) ? '$'+childDailyRate(c)+'/day' : '';
+    return `<div class="child-row"><div class="child-left"><span class="child-name">${esc(c.name)}</span><span class="age-badge ${badge}">${label}${dob}</span></div><span class="child-rate">${rate}</span></div>`;
+  }).join('');
+  const lines = [];
+  if(f.contactName) lines.push(`<div class="fam-contact">👤 ${esc(f.contactName)}</div>`);
+  const contactBits = [];
+  if(f.phone) contactBits.push('📞 '+esc(f.phone));
+  if(f.email) contactBits.push(esc(f.email));
+  if(contactBits.length) lines.push(`<div class="fam-contact">${contactBits.join(' · ')}</div>`);
+  if(f.address) lines.push(`<div class="fam-contact">📍 ${esc(f.address)}</div>`);
+  return `<div class="family-card" data-name="${esc(f.name.toLowerCase())}" data-groups="${esc(groups)}" onclick="openFamilyModal(${i})">
+    <div class="fam-header">
+      <div class="fam-id"><div class="avatar ${av}">${esc(initials(f.name))}</div><div><div class="fam-name">${esc(famDisplayName(f))}</div>${lines.join('')}</div></div>
+      <div class="balance-pill ${pill.cls}">${pill.txt}</div>
+    </div>
+    <div class="children-section">${kids || '<div class="child-row"><span class="child-rate">No children listed</span></div>'}</div>
+  </div>`;
+}
+
+// Render the Billing tab — family balances and the tuition summary — from the
+// roster, with amounts taken straight from the schedule calendar.
+function renderBilling(){
+  const balEl = document.getElementById('billing-balances');
+  const revEl = document.getElementById('billing-revenue');
+  if(!balEl || !revEl) return;
+  if(!adminRoster.length){
+    balEl.innerHTML = '<p style="font-size:13px;color:#64748B">No families yet.</p>';
+    revEl.innerHTML = '';
+    return;
+  }
+  balEl.innerHTML = adminRoster.map((f,i)=>{
+    const av = f.avatarClass || AVATAR_CLASSES[i % AVATAR_CLASSES.length];
+    const owed = familyNetTuition(f);
+    const paid = familyPayments(f);
+    const credit = familyAbsenceCredit(f);
+    const bal = owed - paid;
+    const kidCount = f.children.length;
+    const absBit = credit > 0 ? ` · absences −$${credit.toLocaleString()}` : '';
+    const detail = `${kidCount} child${kidCount===1?'':'ren'} · tuition $${owed.toLocaleString()}${absBit} · paid $${paid.toLocaleString()}`;
+    const amtCls = bal>0 ? 'amt-red' : bal<0 ? 'amt-gray' : 'amt-green';
+    const stCls  = bal>0 ? 'st-red'  : 'st-green';
+    const amtTxt = bal<0 ? '+$'+Math.abs(bal).toLocaleString() : '$'+bal.toLocaleString()+'.00';
+    const stTxt  = bal>0 ? 'Balance due' : bal<0 ? 'Credit' : 'Paid in full';
+    return `<div class="bill-row">
+      <div class="bill-left"><div class="avatar ${av}">${esc(initials(f.name))}</div><div><div class="bill-name">${esc(famDisplayName(f))}</div><div class="bill-detail">${detail}</div></div></div>
+      <div><div class="bill-amt ${amtCls}">${amtTxt}</div><div class="bill-status ${stCls}">${stTxt}</div></div>
+    </div>`;
+  }).join('');
+  revEl.innerHTML = adminRoster.map(f=>{
+    const owed = familyNetTuition(f);
+    const paid = familyPayments(f);
+    const bal = owed - paid;
+    const balTxt = bal>0 ? '$'+bal.toLocaleString()+' due' : bal<0 ? '+$'+Math.abs(bal).toLocaleString()+' credit' : '$0.00';
+    const balColor = bal>0 ? '#DC2626' : bal<0 ? '#0F766E' : '#16A34A';
+    return `<tr><td>${esc(famDisplayName(f))}</td><td>$${owed.toLocaleString()}</td><td>$${paid.toLocaleString()}</td><td style="color:${balColor}">${balTxt}</td></tr>`;
+  }).join('');
+}
+
+// ════════════════ CONTRACTS ════════════════
+// A stable key for a family used by the contract selection set. Family IDs are
+// the natural key; fall back to the name when a family has no code.
+function famKey(f){ return f.familyCode || f.name || ''; }
+
+// Contract tab state. `contractPeriod` undefined = not initialized yet (defaults
+// to the current period on first render); a start year, or null for "all
+// periods". `contractSelected` null = ALL families selected (the default, which
+// survives roster reloads); a Set of family keys once the user customizes it.
+let contractPeriod = undefined;
+let contractSelected = null;
+
+// Is a family currently selected for a contract? Null selection means "all".
+function contractHas(f){
+  return contractSelected === null || contractSelected.has(famKey(f));
+}
+
+// Render the Contracts tab: the period dropdown and the family checkbox list.
+function renderContracts(){
+  const selEl = document.getElementById('contract-period');
+  const listEl = document.getElementById('contract-family-list');
+  const countEl = document.getElementById('contract-count');
+  if(!selEl || !listEl) return;
+
+  if(contractPeriod === undefined) contractPeriod = defaultPeriodYear();
+  selEl.innerHTML = periodOptionsHtml(contractPeriod);
+  selEl.value = contractPeriod == null ? 'all' : String(contractPeriod);
+
+  const fams = adminRoster || [];
+  if(!fams.length){
+    listEl.innerHTML = '<p style="font-size:13px;color:#64748B;margin:0">No families yet — import a roster on the Import Data tab first.</p>';
+    if(countEl) countEl.textContent = '';
+    return;
+  }
+  listEl.innerHTML = fams.map(f=>{
+    const on = contractHas(f);
+    const n = f.children.length;
+    return `<label class="cp-toggle${on?' cp-on':''}"><input type="checkbox" data-key="${esc(famKey(f))}" ${on?'checked':''} onchange="toggleContractFamily(this.dataset.key, this.checked)">${esc(famDisplayName(f))} <span style="color:#94A3B8">(${n} child${n===1?'':'ren'})</span></label>`;
+  }).join('');
+  const selCount = fams.filter(contractHas).length;
+  if(countEl) countEl.textContent = `· ${selCount} of ${fams.length} selected`;
+}
+
+function setContractPeriod(value){
+  contractPeriod = value === 'all' ? null : parseInt(value, 10);
+}
+function toggleContractFamily(key, on){
+  // Materialize the implicit "all" selection into a concrete set before editing.
+  if(contractSelected === null) contractSelected = new Set((adminRoster || []).map(famKey));
+  if(on) contractSelected.add(key); else contractSelected.delete(key);
+  renderContracts();
+}
+function selectAllContractFamilies(){
+  contractSelected = null;
+  renderContracts();
+}
+function clearContractFamilies(){
+  contractSelected = new Set();
+  renderContracts();
+}
+
+// Whole-dollar amount as "$1,234.00".
+function contractMoney(n){
+  return '$' + Number(n || 0).toLocaleString('en-US') + '.00';
+}
+// Slug for a download filename, e.g. "Martinez Family - F-1024" -> "martinez-family-f-1024".
+function contractSlug(s){
+  return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'contract';
+}
+
+// ── Minimal, dependency-free PDF writer ──
+// Produces a real application/pdf Blob using the standard Helvetica fonts (no
+// font embedding needed). Coordinates are top-down (y grows downward) and
+// converted to PDF's bottom-up space internally. This keeps the portal's
+// zero-dependency, no-build-pipeline architecture intact while still emitting a
+// genuine downloadable PDF file.
+function createPdfBuilder(){
+  const W = 612, H = 792; // US Letter, in points
+  // Helvetica glyph advance widths (units per 1000 em) for ASCII 32–126.
+  const HV_W = [278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584];
+  function charW(code){ return (code >= 32 && code <= 126) ? HV_W[code - 32] : 556; }
+  function widthOf(str, size){
+    str = String(str == null ? '' : str);
+    let w = 0;
+    for(let i = 0; i < str.length; i++) w += charW(str.charCodeAt(i));
+    return w * size / 1000;
+  }
+  const pages = [];
+  const images = []; // embedded image XObjects, deduped by object identity
+  let cur = null;
+  function page(){ cur = []; pages.push(cur); }
+  function fmt(n){ return (Math.round(n * 100) / 100).toString(); }
+  // Escape a string for a PDF literal and drop anything outside Latin-1 so byte
+  // offsets stay one-per-character (the xref table depends on that).
+  function pesc(s){
+    s = String(s == null ? '' : s);
+    let o = '';
+    for(let i = 0; i < s.length; i++){
+      const ch = s[i], code = s.charCodeAt(i);
+      if(ch === '\\') o += '\\\\';
+      else if(ch === '(') o += '\\(';
+      else if(ch === ')') o += '\\)';
+      else if(code < 32 || code > 255) o += '?';
+      else o += ch;
+    }
+    return o;
+  }
+  function text(x, yTop, size, str, opts){
+    opts = opts || {};
+    const f = opts.bold ? '/F2' : '/F1';
+    const g = opts.gray != null ? `${opts.gray} g ` : '';
+    const reset = opts.gray != null ? ' 0 g' : '';
+    cur.push(`${g}BT ${f} ${fmt(size)} Tf 1 0 0 1 ${fmt(x)} ${fmt(H - yTop)} Tm (${pesc(str)}) Tj ET${reset}`);
+  }
+  function textRight(xRight, yTop, size, str, opts){ text(xRight - widthOf(str, size), yTop, size, str, opts); }
+  function textCenter(xc, yTop, size, str, opts){ text(xc - widthOf(str, size) / 2, yTop, size, str, opts); }
+  function line(x1, y1, x2, y2, opts){
+    opts = opts || {};
+    const wd = opts.width || 1;
+    const g = opts.gray != null ? `${opts.gray} G ` : '';
+    const reset = opts.gray != null ? ' 0 G' : '';
+    cur.push(`${g}${fmt(wd)} w ${fmt(x1)} ${fmt(H - y1)} m ${fmt(x2)} ${fmt(H - y2)} l S${reset}`);
+  }
+  // Draw an embedded image (a {data,w,h} object from prepareJpegImage) so its
+  // top-left sits at (x, yTop) and it spans w×h points. Images are wrapped in a
+  // q/Q pair so they don't disturb the surrounding text graphics state.
+  function image(x, yTop, w, h, img){
+    if(!img) return;
+    let idx = images.indexOf(img);
+    if(idx === -1){ images.push(img); idx = images.length - 1; }
+    cur.push(`q ${fmt(w)} 0 0 ${fmt(h)} ${fmt(x)} ${fmt(H - yTop - h)} cm /Img${idx} Do Q`);
+  }
+  // Trim a string with a trailing "..." so it fits within maxW points.
+  function fit(str, size, maxW){
+    str = String(str == null ? '' : str);
+    if(widthOf(str, size) <= maxW) return str;
+    let s = str;
+    while(s.length > 1 && widthOf(s + '...', size) > maxW) s = s.slice(0, -1);
+    return s + '...';
+  }
+  function toBlob(){
+    const N = pages.length;
+    const NI = images.length;
+    const objs = [];
+    const set = (num, body) => { objs[num] = `${num} 0 obj\n${body}\nendobj\n`; };
+    set(1, '<< /Type /Catalog /Pages 2 0 R >>');
+    const kids = [];
+    const pageBase = 5 + NI; // page/content objects start after the image XObjects
+    for(let i = 0; i < N; i++) kids.push(`${pageBase + 1 + i * 2} 0 R`);
+    set(2, `<< /Type /Pages /Kids [${kids.join(' ')}] /Count ${N} >>`);
+    set(3, '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+    set(4, '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+    // Image XObjects (objects 5 .. 4+NI). canvas-exported JPEG bytes embed
+    // directly through the DCTDecode filter, no decoding needed.
+    let xobjEntries = '';
+    for(let i = 0; i < NI; i++){
+      const im = images[i], onum = 5 + i;
+      set(onum, `<< /Type /XObject /Subtype /Image /Width ${im.w} /Height ${im.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${im.data.length} >>\nstream\n${im.data}\nendstream`);
+      xobjEntries += `/Img${i} ${onum} 0 R `;
+    }
+    const xobjDict = NI ? ` /XObject << ${xobjEntries}>>` : '';
+    for(let i = 0; i < N; i++){
+      const content = pages[i].join('\n');
+      const cnum = pageBase + i * 2, pnum = pageBase + 1 + i * 2;
+      set(cnum, `<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+      set(pnum, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >>${xobjDict} >> /Contents ${cnum} 0 R >>`);
+    }
+    const total = 4 + NI + N * 2;
+    let pdf = '%PDF-1.4\n%âãÏÓ\n';
+    const off = [];
+    for(let n = 1; n <= total; n++){ off[n] = pdf.length; pdf += objs[n]; }
+    const xrefStart = pdf.length;
+    pdf += `xref\n0 ${total + 1}\n0000000000 65535 f \n`;
+    for(let n = 1; n <= total; n++) pdf += String(off[n]).padStart(10, '0') + ' 00000 n \n';
+    pdf += `trailer\n<< /Size ${total + 1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF`;
+    const bytes = new Uint8Array(pdf.length);
+    for(let i = 0; i < pdf.length; i++) bytes[i] = pdf.charCodeAt(i) & 0xff;
+    return new Blob([bytes], { type: 'application/pdf' });
+  }
+  return { page, text, textRight, textCenter, line, image, widthOf, fit, toBlob };
+}
+
+// Contract table column geometry (points). Numeric columns are right-aligned to
+// their right edge; text columns are left-aligned to their x.
+const CT = { L:48, R:564, NAME:48, START:138, GROUP:222, FULL:382, PART:444, ABSENT:516, AMT:564 };
+
+// Draw the table header row and underline, returning the y for the first body row.
+function drawContractTableHeader(b, y){
+  b.text(CT.NAME, y, 9, 'CHILD', { bold:true, gray:0.5 });
+  b.text(CT.START, y, 9, 'START DATE', { bold:true, gray:0.5 });
+  b.text(CT.GROUP, y, 9, 'AGE GROUP', { bold:true, gray:0.5 });
+  b.textRight(CT.FULL, y, 9, 'FULL DAYS', { bold:true, gray:0.5 });
+  b.textRight(CT.PART, y, 9, 'PART DAYS', { bold:true, gray:0.5 });
+  b.textRight(CT.ABSENT, y, 9, 'ABSENT DAYS', { bold:true, gray:0.5 });
+  b.textRight(CT.AMT, y, 9, 'AMOUNT', { bold:true, gray:0.5 });
+  b.line(CT.L, y + 7, CT.R, y + 7, { width:0.8, gray:0.75 });
+  return y + 20;
+}
+
+// Load the daycare logo once and cache it as embeddable JPEG bytes. The PNG is
+// drawn onto a white canvas (flattening any transparency) and re-encoded as a
+// JPEG, the one image format the minimal PDF writer can embed directly via
+// DCTDecode. Resolves to {data,w,h} on success or null if the logo can't be
+// loaded/encoded, so contract generation degrades gracefully to text-only.
+let contractLogoCache; // undefined = not attempted, null = failed, object = ready
+function loadContractLogo(){
+  if(contractLogoCache !== undefined) return Promise.resolve(contractLogoCache);
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        const url = canvas.toDataURL('image/jpeg', 0.92);
+        contractLogoCache = { data: atob(url.slice(url.indexOf(',') + 1)), w: canvas.width, h: canvas.height };
+      } catch(e){ contractLogoCache = null; }
+      resolve(contractLogoCache);
+    };
+    img.onerror = () => { contractLogoCache = null; resolve(contractLogoCache); };
+    img.src = 'assets/logo.png';
+  });
+}
+
+// Render one family's contract onto a fresh page.
+function drawContract(b, f, periodYear, logo){
+  b.page();
+  const L = CT.L, R = CT.R, CX = (L + R) / 2;
+  let y = 26;
+
+  if(logo){
+    const logoH = 48, logoW = logoH * (logo.w / logo.h);
+    b.image(CX - logoW / 2, y, logoW, logoH, logo);
+    y += logoH + 6;
+  } else {
+    y = 38;
+  }
+
+  b.textCenter(CX, y, 18, 'Enrollment Contract', { bold:true }); y += 15;
+  b.textCenter(CX, y, 11, 'Ateres Bnos Daycare', { gray:0.45 }); y += 11;
+  b.line(L, y, R, y, { width:1.2, gray:0.8 }); y += 13;
+
+  const periodLabel = periodYear == null ? 'All periods' : periodName(periodYear);
+  b.text(L, y, 11, 'Billing period:', { bold:true });
+  b.text(L + 88, y, 11, periodLabel);
+  y += 16;
+
+  b.text(L, y, 9, 'PREPARED FOR', { bold:true, gray:0.5 }); y += 13;
+  b.text(L, y, 14, b.fit(famDisplayName(f), 14, R - L), { bold:true }); y += 15;
+  if(f.contactName){ b.text(L, y, 10, b.fit(f.contactName, 10, R - L), { gray:0.3 }); y += 12; }
+  const contactLine = [f.phone, f.email].filter(Boolean).join('   ·   ');
+  if(contactLine){ b.text(L, y, 10, b.fit(contactLine, 10, R - L), { gray:0.3 }); y += 12; }
+  if(f.address){ b.text(L, y, 10, b.fit(f.address, 10, R - L), { gray:0.3 }); y += 12; }
+  y += 5;
+
+  // ── Contract terms (between the family info and the billing table) ──
+  // Layout helpers local to this page. The minimal PDF writer only embeds
+  // Latin-1 characters, so all copy below sticks to plain ASCII (hyphens,
+  // straight quotes) and checkboxes are drawn as rectangles.
+  const ensure = need => { if(y + need > 770){ b.page(); y = 38; } };
+  const wrapLines = (str, size, maxW) => {
+    const words = String(str).split(/\s+/);
+    const lines = [];
+    let ln = '';
+    words.forEach(w => {
+      const test = ln ? ln + ' ' + w : w;
+      if(ln && b.widthOf(test, size) > maxW){ lines.push(ln); ln = w; }
+      else ln = test;
+    });
+    if(ln) lines.push(ln);
+    return lines;
+  };
+  const para = (str, opts) => {
+    opts = opts || {};
+    const size = opts.size || 10, lh = size + 2, indent = opts.indent || 0;
+    wrapLines(str, size, R - L - indent).forEach(line => {
+      ensure(lh);
+      b.text(L + indent, y, size, line, opts.textOpts || {});
+      y += lh;
+    });
+    if(opts.after) y += opts.after;
+  };
+  const heading = str => { ensure(20); y += 2; b.text(L, y, 11, str, { bold:true }); y += 13; };
+  const subLabel = str => { ensure(14); b.text(L + 14, y, 10, str, { bold:true, gray:0.2 }); y += 12; };
+  const bullet = str => {
+    const size = 10, lh = size + 2;
+    wrapLines(str, size, R - L - 30).forEach((line, i) => {
+      ensure(lh);
+      if(i === 0) b.text(L + 16, y, size, 'o', { gray:0.45 });
+      b.text(L + 30, y, size, line, { gray:0.15 });
+      y += lh;
+    });
+  };
+  const checkbox = str => {
+    ensure(16);
+    const s = 9, top = y - 7;
+    b.line(L + 14, top, L + 14 + s, top, { width:0.8, gray:0.45 });
+    b.line(L + 14, top + s, L + 14 + s, top + s, { width:0.8, gray:0.45 });
+    b.line(L + 14, top, L + 14, top + s, { width:0.8, gray:0.45 });
+    b.line(L + 14 + s, top, L + 14 + s, top + s, { width:0.8, gray:0.45 });
+    b.text(L + 14 + s + 8, y, 10, str, { gray:0.15 });
+    y += 14;
+  };
+
+  // Use the parent's full first + last name. contactName holds the first name;
+  // the last name comes from the family name (e.g. "Martinez Family" -> "Martinez").
+  // Skip appending when contactName already ends with that last name.
+  const parentFirst = (f.contactName || '').trim();
+  const parentLast = familyLastName(f);
+  const lastRe = new RegExp('(^|\\s)' + parentLast.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i');
+  let parentName = parentFirst;
+  if(parentFirst && parentLast && !lastRe.test(parentFirst)) parentName = parentFirst + ' ' + parentLast;
+  if(!parentName) parentName = f.name || '________________';
+  para('The following contract constitutes an agreement between Cong. Bais Chinuch Ateres Bnos and '
+    + parentName + ' for legally exempt daycare services to be provided to their child(ren) for the '
+    + periodLabel + ' school year.', { after: 2 });
+
+  heading('Services:');
+  para('The program will provide a well-rounded curriculum including but not limited to free play, '
+    + 'structured academic instruction, and engaging learning activities designed to support each '
+    + "child's social, emotional, and cognitive development. Breakfast and lunch will be provided daily.");
+
+  heading('Hours:');
+  subLabel('Children ages 3 and 4:');
+  bullet('Monday - Thursday: 9:00AM - 3:00PM');
+  bullet('Fridays: 9:00AM - 1:00PM');
+  subLabel('Children age 5:');
+  bullet('Monday - Thursday: 8:00AM - 3:00PM');
+  bullet('Fridays: 8:00AM - 1:00PM');
+  subLabel('Children ages 6 and above:');
+  bullet('Monday - Thursday: 2:15PM - 4:00PM');
+  bullet('Summer and legal holidays: 8:40AM - 4:00PM');
+
+  heading('Transportation:');
+  para('Daily hours of care include bus travel time. Please indicate below if you would like to opt '
+    + 'out of our transportation services:', { after: 2 });
+  checkbox('Opt out of AM bus service');
+  checkbox('Opt out of PM bus service');
+
+  heading('Cost of Care:');
+  bullet('Preschool Full Day - 6 hours: $69.00 daily');
+  bullet('Preschool Part Day - less than 6 hours: $46.00 daily');
+  bullet('School Age Full Day - 6 hours: $63.00 daily');
+  bullet('Part Day - less than 6 hours: $42.00 daily');
+  y += 2;
+  para('Cong. Bais Chinuch Ateres Bnos reserves the right to increase the above outlined rate at any '
+    + 'time, given that parents receive notice of upcoming price changes at least 2 weeks prior to '
+    + 'effective rate change date.');
+
+  // Title and billing table. Start on a fresh page if little room remains.
+  y += 12;
+  if(y > 686){ b.page(); y = 38; }
+  b.text(L, y, 13, 'Your Billing Details', { bold:true });
+  y += 20;
+  y = drawContractTableHeader(b, y);
+
+  let famTotal = 0;
+  const kids = f.children || [];
+  kids.forEach(c => {
+    if(y > 736){ // overflow onto a continuation page
+      b.page();
+      y = 38;
+      b.text(L, y, 12, b.fit(famDisplayName(f) + ' (continued)', 12, R - L), { bold:true });
+      y += 20;
+      y = drawContractTableHeader(b, y);
+    }
+    const counts = childDayCounts(c, periodYear);
+    const t = childTuition(c, periodYear);
+    const absence = childAbsenceInfo(f, c, periodYear);
+    const net = t - absence.credit;
+    famTotal += net;
+    b.text(CT.NAME, y, 11, b.fit(c.name || '—', 11, CT.START - CT.NAME - 8));
+    b.text(CT.START, y, 11, b.fit(childContractStartDate(c, periodYear) || '—', 11, CT.GROUP - CT.START - 8), { gray:0.3 });
+    b.text(CT.GROUP, y, 11, b.fit(GROUP_LABELS[c.group] || c.group, 11, 84), { gray:0.3 });
+    b.textRight(CT.FULL, y, 11, String(counts.full));
+    b.textRight(CT.PART, y, 11, String(counts.part));
+    b.textRight(CT.ABSENT, y, 11, String(absence.days), absence.days ? { gray:0.3 } : undefined);
+    b.textRight(CT.AMT, y, 11, contractMoney(net));
+    y += 18;
+  });
+  if(!kids.length){ b.text(CT.NAME, y, 10, 'No children on file for this family.', { gray:0.5 }); y += 18; }
+
+  b.line(L, y - 4, R, y - 4, { width:1, gray:0.7 });
+  y += 10;
+  b.text(CT.NAME, y, 12, 'Family subtotal', { bold:true });
+  b.textRight(CT.AMT, y, 12, contractMoney(famTotal), { bold:true });
+  y += 15;
+  b.text(L, y, 9, periodYear == null
+    ? 'Total scheduled tuition across all enrollment periods, net of absence credits.'
+    : 'Total scheduled tuition for ' + periodLabel + ', net of absence credits.', { gray:0.5 });
+
+  // Signature block, anchored near the bottom of the page.
+  const sy = 766;
+  b.text(L, sy - 36, 10, 'I hereby agree to the terms and conditions outlined in this contract by signing below:');
+  b.line(L, sy, L + 220, sy, { width:0.8, gray:0.6 });
+  b.line(R - 220, sy, R, sy, { width:0.8, gray:0.6 });
+  b.text(L, sy + 12, 9, 'Parent / guardian signature', { gray:0.5 });
+  b.text(R - 220, sy + 12, 9, 'Administrator signature', { gray:0.5 });
+}
+
+// Build a single PDF holding one contract per family.
+async function buildContractsPdf(families, periodYear){
+  const logo = await loadContractLogo();
+  const b = createPdfBuilder();
+  families.forEach(f => drawContract(b, f, periodYear, logo));
+  return b.toBlob();
+}
+
+// Trigger a browser download for a Blob.
+function downloadBlob(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 0);
+}
+
+function generateContracts(){
+  const status = document.getElementById('contract-status');
+  const setStatus = (msg, kind) => { if(status){ status.textContent = msg; status.className = 'import-status show' + (kind ? ' ' + kind : ''); } };
+  const fams = (adminRoster || []).filter(contractHas);
+  if(!fams.length){
+    setStatus('Select at least one family to generate a contract.', 'err');
+    return;
+  }
+  const py = contractPeriod === undefined ? defaultPeriodYear() : contractPeriod;
+  setStatus('Generating…', null);
+  buildContractsPdf(fams, py).then(blob => {
+    const periodLabel = py == null ? 'all-periods' : periodName(py).replace(/\s+/g, '');
+    const fname = fams.length === 1
+      ? `contract-${contractSlug(famDisplayName(fams[0]))}-${periodLabel}.pdf`
+      : `contracts-${periodLabel}.pdf`;
+    downloadBlob(blob, fname);
+    setStatus(`Generated ${fams.length} contract${fams.length === 1 ? '' : 's'} for ${py == null ? 'all periods' : periodName(py)}.`, 'ok');
+  }).catch(e => {
+    setStatus('Could not generate the PDF: ' + (e && e.message ? e.message : e), 'err');
+  });
+}
+
+// Dashboard stats and the overdue banner, all derived from the roster and the
+// schedule calendar so they match the Families and Billing tabs. Every stat is
+// scoped to the period chosen in the dashboard dropdown (`dashboardPeriod`):
+// families and children are those enrolled in the period, revenue is that
+// period's scheduled tuition. Balances overdue counts those families whose
+// CURRENT (cumulative, rolled-over) balance is still due.
+function updateDashboardCounts(){
+  populateDashboardPeriod();
+  const py = dashboardPeriod;
+  const inSel = c => py == null || childPeriods(c).indexOf(py) !== -1;
+  const fams = py == null
+    ? adminRoster
+    : adminRoster.filter(f => f.children.some(inSel));
+  const kids = fams.reduce((n,f)=>n + f.children.filter(inSel).length, 0);
+  const groups = new Set();
+  fams.forEach(f=>f.children.forEach(c=>{ if(inSel(c)) groups.add(c.group); }));
+  const dueList = fams.filter(f=>familyBalance(f)>0);
+  const revenue = fams.reduce((sum,f)=>sum + familyTuition(f, py), 0);
+  const cards = document.querySelectorAll('#page-dashboard .stats-grid .stat-card');
+  if(cards.length >= 4){
+    cards[0].querySelector('.stat-val').textContent = fams.length;
+    cards[1].querySelector('.stat-val').textContent = kids;
+    cards[1].querySelector('.stat-sub').textContent = 'across '+groups.size+' group'+(groups.size===1?'':'s');
+    cards[2].querySelector('.stat-val').textContent = '$'+revenue.toLocaleString();
+    cards[2].querySelector('.stat-sub').textContent = py == null ? 'scheduled tuition · all periods' : 'scheduled tuition · '+periodName(py);
+    cards[3].querySelector('.stat-val').textContent = dueList.length;
+  }
+  const sub = document.getElementById('dash-sub');
+  if(sub) sub.textContent = py == null
+    ? 'Overview of Ateres Bnos Daycare — all periods'
+    : 'Overview of Ateres Bnos Daycare — '+periodName(py)+' period';
+  renderGroupSummary(fams, inSel);
+}
+
+// Group summary table on the dashboard, derived from the live roster. Children
+// are counted per program group (respecting the selected period) and the monthly
+// estimate uses the full daily rate over a 22-day month, matching the Pricing page.
+const GROUP_AGES = { 'preschool':'3–5 yr', 'school-age':'6–12 yr' };
+function renderGroupSummary(fams, inSel){
+  const body = document.getElementById('group-summary-body');
+  if(!body) return;
+  const rows = GROUP_DEFS.map(g=>{
+    let count = 0;
+    fams.forEach(f=>f.children.forEach(c=>{ if(c.group===g.slug && inSel(c)) count++; }));
+    const rate = (RATES[g.slug] || {full:0}).full;
+    const monthly = count * rate * 22;
+    return `<tr><td><span class="group-dot" style="background:${g.color}"></span>${g.label}</td><td>${GROUP_AGES[g.slug]||''}</td><td>${count}</td><td class="price-hl">$${rate}</td><td>$${monthly.toLocaleString()}</td></tr>`;
+  }).join('');
+  body.innerHTML = rows;
+}
+
+// Fill the dashboard period dropdown with every created period and keep it set
+// to the active selection.
+function populateDashboardPeriod(){
+  const sel = document.getElementById('dashboard-period');
+  if(!sel) return;
+  sel.innerHTML = periodOptionsHtml(dashboardPeriod);
+  sel.value = dashboardPeriod == null ? 'all' : String(dashboardPeriod);
+}
+
+// Change the dashboard period filter and re-render the stat cards.
+function setDashboardPeriod(value){
+  dashboardPeriod = value === 'all' ? null : parseInt(value, 10);
+  updateDashboardCounts();
+}
+
+// ════════════════ FAMILY DETAIL MODAL ════════════════
+// Index (into adminRoster) of the family whose account is currently open, so
+// the modal can be re-rendered in place after a payment is deleted.
+let openFamilyIdx = null;
+
+function openFamilyModal(idx){
+  openFamilyIdx = idx;
+  // Default each opened account to the current period, like the dashboard.
+  familyModalPeriod = defaultPeriodYear();
+  renderFamilyModal(idx);
+  document.getElementById('family-modal').classList.add('show');
+}
+function closeFamilyModal(){
+  openFamilyIdx = null;
+  document.getElementById('family-modal').classList.remove('show');
+}
+
+// Change the period the open family account is filtered to and re-render it. The
+// balance stays cumulative — only the scheduled tuition and absence credit shown
+// follow the selected period.
+function setFamilyModalPeriod(value){
+  familyModalPeriod = value === 'all' ? null : parseInt(value, 10);
+  if(openFamilyIdx != null) renderFamilyModal(openFamilyIdx);
+}
+
+// Build the full-account view for one family: contact details, children, an
+// account summary, and a payment ledger with a running balance per payment.
+function renderFamilyModal(idx){
+  const f = adminRoster[idx];
+  if(!f){ closeFamilyModal(); return; }
+  const av = f.avatarClass || AVATAR_CLASSES[idx % AVATAR_CLASSES.length];
+  const py = familyModalPeriod;             // selected period, or null for all
+  const owed = familyTuition(f, py);        // scheduled tuition for the period
+  const credit = familyAbsenceCredit(f, py);// absence credit within the period
+  // The balance always rolls over: it is the family's cumulative net tuition
+  // across every period minus every payment, regardless of the period selected.
+  const cumNet = familyNetTuition(f);
+  const paid = familyPayments(f);
+  const bal  = cumNet - paid;
+
+  const contact = [];
+  if(f.contactName) contact.push('👤 '+esc(f.contactName));
+  if(f.phone)       contact.push('📞 '+esc(f.phone));
+  if(f.email)       contact.push(esc(f.email));
+  if(f.address)     contact.push('📍 '+esc(f.address));
+  const contactHtml = contact.map(c=>`<div class="fam-contact">${c}</div>`).join('');
+
+  // When a specific period is selected, show only the children assigned to it;
+  // children not enrolled in that period are hidden. "All periods" shows everyone.
+  const visibleChildren = py == null
+    ? f.children
+    : f.children.filter(c => childPeriods(c).indexOf(py) !== -1);
+  const kids = visibleChildren.map(c=>{
+    const badge = GROUP_BADGES[c.group] || 'b-preschool';
+    const label = GROUP_LABELS[c.group] || 'Preschool';
+    const dob = c.dob ? ' · '+esc(c.dob) : '';
+    const rate = childDailyRate(c) ? '$'+childDailyRate(c)+'/day' : '';
+    // Imported/saved children have a database id and get editable start/end date
+    // fields; the placeholder sample roster (no id) just shows any start date.
+    const dates = c.id != null
+      ? `<div class="child-dates"><div class="pay-add-grid">
+          <label class="pay-fld"><span>Start date</span><input type="date" class="pay-inp" value="${esc(c.startDate||'')}" onchange="saveChildDates(${c.id}, 'startDate', this.value)"></label>
+          <label class="pay-fld"><span>End date</span><input type="date" class="pay-inp" value="${esc(c.endDate||'')}" onchange="saveChildDates(${c.id}, 'endDate', this.value)"></label>
+        </div></div>`
+      : (c.startDate ? `<div class="child-dates"><span class="cd-static">Start ${esc(c.startDate)}</span></div>` : '');
+    const periodsHtml = renderChildPeriods(c);
+    const ccapHtml = renderChildCcap(c, py);
+    return `<div class="child-acct">
+      <div class="child-row"><div class="child-left"><span class="child-name">${esc(c.name)}</span><span class="age-badge ${badge}">${label}${dob}</span></div><span class="child-rate">${rate}</span></div>
+      ${dates}
+      ${periodsHtml}
+      ${ccapHtml}
+    </div>`;
+  }).join('') || (py == null
+    ? '<div class="child-row"><span class="child-rate">No children listed</span></div>'
+    : `<div class="child-row"><span class="child-rate">No children enrolled in the ${esc(periodName(py))} period</span></div>`);
+
+  const balColor = bal>0 ? '#DC2626' : bal<0 ? '#0F766E' : '#16A34A';
+  const balTxt = bal<0 ? '+$'+Math.abs(bal).toLocaleString()+' credit' : '$'+bal.toLocaleString();
+
+  // ── Absences: a day the family's children were out, with per-child toggles ──
+  const absencesHtml = renderAbsencesSection(f, idx);
+
+  // Payments for this family, oldest first, so the running balance accumulates
+  // naturally from the opening balance (tuition after absences) down to the
+  // current balance.
+  const recs = paymentRecords
+    .filter(p => f.familyCode && p.familyCode === f.familyCode)
+    .slice()
+    .sort((a,b) => (a.date||'').localeCompare(b.date||'') || (a.id-b.id));
+
+  const openLabel = familyAbsenceCredit(f) > 0 ? 'Opening · tuition after absences' : 'Opening · scheduled tuition';
+  let ledger;
+  if(!recs.length){
+    ledger = '<p style="font-size:13px;color:#64748B">No payments recorded for this family yet.</p>';
+  } else {
+    let running = cumNet;
+    const payRows = recs.map(p=>{
+      running -= (p.amount||0);
+      const rTxt = running<0 ? '+$'+Math.abs(running).toLocaleString()+' credit' : '$'+running.toLocaleString();
+      return `<tr>
+        <td>${esc(p.date||'—')}</td>
+        <td>${esc(p.method||'—')}</td>
+        <td>${esc(p.reference||'—')}</td>
+        <td class="ledger-amt">–$${(p.amount||0).toLocaleString()}</td>
+        <td class="ledger-bal">${rTxt}</td>
+        <td style="text-align:right"><button class="pay-del" onclick="deletePayment(${p.id})">Delete</button></td>
+      </tr>`;
+    }).join('');
+    ledger = `<table>
+      <thead><tr><th>Date</th><th>Method</th><th>Reference</th><th>Amount</th><th>Running balance</th><th></th></tr></thead>
+      <tbody>
+        <tr class="ledger-open"><td>—</td><td></td><td></td><td>${openLabel}</td><td class="ledger-bal" style="color:#94A3B8">$${cumNet.toLocaleString()}</td><td></td></tr>
+        ${payRows}
+      </tbody>
+    </table>`;
+  }
+
+  const creditColor = credit > 0 ? '#0F766E' : '#1E3A5F';
+  const periodTag = py == null ? 'all periods' : periodName(py);
+  const recordForm = renderRecordPaymentForm(f, idx);
+  document.getElementById('family-modal-inner').innerHTML = `
+    <div class="modal-head">
+      <div class="fam-id"><div class="avatar ${av}">${esc(initials(f.name))}</div>
+        <div><div class="fam-name" style="font-size:16px">${esc(famDisplayName(f))}</div>${contactHtml}</div></div>
+      <div class="modal-head-right">
+        <label class="period-select-wrap">Period
+          <select class="period-select" onchange="setFamilyModalPeriod(this.value)">${periodOptionsHtml(py)}</select>
+        </label>
+        <button class="modal-close" onclick="closeFamilyModal()" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="acct-summary">
+        <div class="acct-stat"><div class="as-label">Scheduled tuition · ${periodTag}</div><div class="as-val">$${owed.toLocaleString()}</div></div>
+        <div class="acct-stat"><div class="as-label">Absence credit · ${periodTag}</div><div class="as-val" style="color:${creditColor}">−$${credit.toLocaleString()}</div></div>
+        <div class="acct-stat"><div class="as-label">Payments received</div><div class="as-val" style="color:#16A34A">$${paid.toLocaleString()}</div></div>
+        <div class="acct-stat"><div class="as-label">Current balance</div><div class="as-val" style="color:${balColor}">${balTxt}</div></div>
+      </div>
+      <div class="notice-box" style="margin:-4px 0 1rem">ℹ️ Scheduled tuition and absence credit shown are for the <strong>${periodTag}</strong> period. The current balance is the family's running balance across <strong>all periods</strong> — any open balance from earlier periods rolls over.</div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-title"><span class="ct-icon">🧒</span> Children</div>
+        <div class="children-section" style="border-top:none;margin-top:0;padding-top:0">${kids}</div>
+      </div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-title"><span class="ct-icon">📅</span> Absences</div>
+        ${absencesHtml}
+        <div class="notice-box">ℹ️ Add a day this family's children were out, then check who was absent. The family is not billed for that day at each absent child's daily rate, and the balance updates everywhere — Families, Payments and Billing.</div>
+      </div>
+      <div class="card" style="margin-bottom:0">
+        <div class="card-title"><span class="ct-icon">📜</span> Payment history</div>
+        ${recordForm}
+        ${ledger}
+        <div class="notice-box">ℹ️ Each payment lowers the running balance. Deleting a payment recalculates this family's balance everywhere — Families, Payments and Billing.</div>
+      </div>
+    </div>`;
+}
+
+// Build the "Record a payment" form shown in a family's account. Lets the office
+// log a payment by hand (Date, Amount, Method, Reference) without a spreadsheet
+// import. Requires a Family ID so the payment links to the family like all others.
+function renderRecordPaymentForm(f, idx){
+  if(!f.familyCode){
+    return '<p style="font-size:13px;color:#64748B">A Family ID is required to record a payment for this family.</p>';
+  }
+  return `<div class="pay-add">
+    <div class="pay-add-grid">
+      <label class="pay-fld"><span>Payment date</span><input type="date" id="pay-date-input" class="abs-date"></label>
+      <label class="pay-fld"><span>Amount ($)</span><input type="number" min="0" step="1" id="pay-amount-input" class="pay-inp" placeholder="500"></label>
+      <label class="pay-fld"><span>Payment method</span>
+        <select id="pay-method-input" class="pay-inp">
+          <option value="">— select —</option>
+          <option>Check</option>
+          <option>Zelle</option>
+          <option>Credit card</option>
+          <option>Cash</option>
+          <option>Bank transfer</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label class="pay-fld"><span>Reference</span><input type="text" id="pay-ref-input" class="pay-inp" placeholder="Check # / confirmation"></label>
+    </div>
+    <button class="abs-add-btn" onclick="addManualPayment(${idx})">Record payment</button>
+  </div>`;
+}
+
+// Convert a date-input value (YYYY-MM-DD) to MM/DD/YYYY. Leaves any other or
+// blank value untouched so it is stored exactly as entered.
+function toUsDate(v){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(v).trim());
+  return m ? `${m[2]}/${m[3]}/${m[1]}` : String(v).trim();
+}
+
+// Record a single payment entered by hand for one family, then refresh every
+// balance-aware screen and the open account view so it appears immediately.
+async function addManualPayment(idx){
+  const f = adminRoster[idx];
+  if(!f || !f.familyCode) return;
+  // Manually entered payments record their date in MM/DD/YYYY format.
+  const date = toUsDate((document.getElementById('pay-date-input')||{}).value || '');
+  const amountRaw = (document.getElementById('pay-amount-input')||{}).value || '';
+  const method = (document.getElementById('pay-method-input')||{}).value || '';
+  const reference = (document.getElementById('pay-ref-input')||{}).value || '';
+  const amount = Math.round(parseFloat(String(amountRaw).replace(/[^0-9.-]/g,'')));
+  if(!Number.isFinite(amount) || amount === 0){ showToast('Enter a non-zero payment amount.'); return; }
+  try {
+    const res = await fetch('/api/payments', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ payments: [{ familyCode: f.familyCode, date: date.trim(), amount, method: method.trim(), reference: reference.trim() }] }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    await loadPayments();
+    refreshDerived();
+    if(openFamilyIdx != null) renderFamilyModal(openFamilyIdx);
+    showToast('Payment recorded — balances updated.');
+  } catch(e){
+    showToast('Could not record payment: '+e.message);
+  }
+}
+
+// Build the per-child period assignment block: a checkbox for each created
+// period, ticked when the child is billed for that period. Children with a
+// database id are editable; the sample roster just lists assigned periods.
+function renderChildPeriods(c){
+  const assigned = childPeriods(c);
+  if(c.id == null){
+    if(!assigned.length) return '';
+    const chips = assigned.slice().sort((a,b)=>a-b).map(y=>`<span class="period-chip">${periodName(y)}</span>`).join('');
+    return `<div class="child-periods"><div class="cp-label">Billed periods</div><div class="periods-list">${chips}</div></div>`;
+  }
+  if(!periodsState.length){
+    return `<div class="child-periods"><div class="cp-label">Billed periods</div><span class="cp-none">No periods created yet — add one on the Schedule tab.</span></div>`;
+  }
+  const toggles = periodsState.slice().sort((a,b)=>a.startYear-b.startYear).map(p=>{
+    const on = assigned.indexOf(p.startYear) !== -1;
+    return `<label class="cp-toggle${on?' cp-on':''}"><input type="checkbox" ${on?'checked':''} onchange="saveChildPeriods(${c.id}, ${p.startYear}, this.checked)">${periodName(p.startYear)}</label>`;
+  }).join('');
+  return `<div class="child-periods"><div class="cp-label">Billed periods</div><div class="cp-toggles">${toggles}</div></div>`;
+}
+
+// Add or remove one period from a child's assignment, persist the new list, and
+// refresh every balance-aware screen plus the open account view.
+async function saveChildPeriods(childId, year, checked){
+  let target = null;
+  for(const fam of adminRoster){
+    const kid = (fam.children || []).find(c => c.id === childId);
+    if(kid){ target = kid; break; }
+  }
+  if(!target) return;
+  const set = new Set(childPeriods(target));
+  if(checked) set.add(year); else set.delete(year);
+  const next = [...set].sort((a,b)=>a-b);
+  try {
+    const res = await fetch('/api/families', {
+      method:'PATCH', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ childId, periods: next }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    target.periods = next;
+    refreshDerived();
+    if(openFamilyIdx != null) renderFamilyModal(openFamilyIdx);
+    showToast('Periods updated — balances recalculated.');
+  } catch(e){
+    showToast('Could not save periods: '+e.message);
+  }
+}
+
+// Find a child anywhere in the loaded roster by its database id.
+function findChildById(childId){
+  for(const fam of adminRoster){
+    const kid = (fam.children || []).find(c => c.id === childId);
+    if(kid) return kid;
+  }
+  return null;
+}
+
+// Build the per-child CCAP approval block. CCAP is set per period, so the control
+// applies to the period selected at the top of the modal: when a specific period
+// is chosen, a "CCAP Approved" checkbox toggles approval for that period and, when
+// on, exposes the approved-from/until dates. In the "All periods" view it shows a
+// read-only summary of which periods the child is approved for.
+function renderChildCcap(c, py){
+  if(c.id == null || !periodsState.length) return '';
+  if(py == null){
+    const approved = (Array.isArray(c.ccap) ? c.ccap : []).slice().sort((a,b)=>a.period-b.period);
+    const summary = approved.length
+      ? `<div class="ccap-summary">${approved.map(a=>`<span class="period-chip">${periodName(a.period)}</span>`).join('')}</div>`
+      : '<span class="cp-none">Not CCAP-approved for any period.</span>';
+    return `<div class="child-ccap"><div class="cp-label">CCAP approved</div>${summary}<span class="ccap-hint">Choose a specific period above to add or edit a CCAP approval.</span></div>`;
+  }
+  const ap = childCcapForPeriod(c, py);
+  const on = !!ap;
+  const dates = on ? `
+      <div class="pay-add-grid ccap-dates">
+        <label class="pay-fld"><span>Approved from</span><input type="date" class="pay-inp" value="${esc(ap.startDate||'')}" onchange="saveChildCcapDate(${c.id}, ${py}, 'startDate', this.value)"></label>
+        <label class="pay-fld"><span>Approved until</span><input type="date" class="pay-inp" value="${esc(ap.endDate||'')}" onchange="saveChildCcapDate(${c.id}, ${py}, 'endDate', this.value)"></label>
+      </div>
+      <span class="ccap-hint">Billed at the DSS rate on approved days. Leave “Approved until” blank to run through the end of the ${esc(periodName(py))} period.</span>` : '';
+  return `<div class="child-ccap">
+      <label class="ccap-check"><input type="checkbox" ${on?'checked':''} onchange="toggleChildCcap(${c.id}, ${py}, this.checked)"> CCAP Approved <span class="ccap-period">· ${esc(periodName(py))}</span></label>
+      ${dates}
+    </div>`;
+}
+
+// Turn a child's CCAP approval for the selected period on or off. Turning it on
+// defaults the window to the whole period (the admin can then narrow the dates).
+async function toggleChildCcap(childId, period, checked){
+  if(checked) await postCcap(childId, period, true, periodFirstDay(period), '');
+  else        await postCcap(childId, period, false, '', '');
+}
+
+// Update one date of an existing CCAP approval, keeping the other date as-is.
+async function saveChildCcapDate(childId, period, field, value){
+  const kid = findChildById(childId);
+  if(!kid) return;
+  const ap = childCcapForPeriod(kid, period) || { startDate:'', endDate:'' };
+  const startDate = field === 'startDate' ? String(value||'') : (ap.startDate||'');
+  const endDate   = field === 'endDate'   ? String(value||'') : (ap.endDate||'');
+  await postCcap(childId, period, true, startDate, endDate);
+}
+
+// Persist a CCAP approval change, update the in-memory roster, and refresh every
+// balance-aware screen plus the open account view so tuition reflects the new
+// DSS-vs-Ateres split immediately.
+async function postCcap(childId, period, approved, startDate, endDate){
+  const kid = findChildById(childId);
+  if(!kid) return;
+  try {
+    const res = await fetch('/api/ccap', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ childId, period, approved, startDate, endDate }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    if(!Array.isArray(kid.ccap)) kid.ccap = [];
+    kid.ccap = kid.ccap.filter(a => a.period !== period);
+    if(approved) kid.ccap.push({ period, startDate: isoDate(startDate||''), endDate: isoDate(endDate||'') });
+    refreshDerived();
+    if(openFamilyIdx != null) renderFamilyModal(openFamilyIdx);
+    showToast(approved ? 'CCAP approval saved — balances recalculated.' : 'CCAP approval removed — balances recalculated.');
+  } catch(e){
+    showToast('Could not save CCAP approval: '+e.message);
+  }
+}
+
+// Save a single child's enrollment start or end date (field is 'startDate' or
+// 'endDate'). Persists the change, updates the in-memory roster, and refreshes
+// every balance-aware screen plus the open account view so tuition reflects the
+// child's new active range immediately.
+async function saveChildDates(childId, field, value){
+  const v = String(value || '').trim();
+  try {
+    const res = await fetch('/api/families', {
+      method:'PATCH',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ childId, [field]: v }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    // Update the matching child in the loaded roster without a full reload.
+    for(const fam of adminRoster){
+      const kid = (fam.children || []).find(c => c.id === childId);
+      if(kid){ kid[field] = v; break; }
+    }
+    refreshDerived();
+    if(openFamilyIdx != null) renderFamilyModal(openFamilyIdx);
+    showToast(field === 'endDate' ? 'End date updated — balances recalculated.' : 'Start date updated — balances recalculated.');
+  } catch(e){
+    showToast('Could not save date: '+e.message);
+  }
+}
+
+// Build the Absences UI for one family: a date picker to add an absent day, and
+// a list of recorded days each with per-child toggles and the credit they earn.
+function renderAbsencesSection(f, idx){
+  if(!f.familyCode){
+    return '<p style="font-size:13px;color:#64748B">A Family ID is required to record absences for this family.</p>';
+  }
+  const addForm = `<div class="abs-add">
+    <input type="date" id="abs-date-input" class="abs-date" aria-label="Absence date">
+    <button class="abs-add-btn" onclick="addAbsence(${idx})">Add absence day</button>
+  </div>`;
+
+  const absList = familyAbsences(f);
+  let rows;
+  if(!absList.length){
+    rows = '<p style="font-size:13px;color:#64748B">No absences recorded. Add a day above, then check who was out.</p>';
+  } else {
+    rows = absList.map(a=>{
+      const c = absenceCredit(f, a);
+      const kidToggles = f.children.map((kid,ci)=>{
+        const on = (a.childNames||[]).includes(kid.name);
+        const st = scheduleStatusFor(kid.group, a.date);
+        const amt = childDayRate(kid, a.date);
+        const rateLabel = st === 'closed'
+          ? 'closed · $0'
+          : '$'+amt+' '+(st === 'full' ? 'full day' : 'part day');
+        return `<label class="abs-kid${on?' on':''}">
+          <input type="checkbox" ${on?'checked':''} onchange="toggleAbsenceChild(${idx}, ${a.id}, ${ci}, this.checked)">
+          <span class="abs-kid-name">${esc(kid.name)}</span>
+          <span class="abs-kid-rate">${rateLabel}</span>
+        </label>`;
+      }).join('') || '<span style="font-size:12px;color:#94A3B8">No children to select</span>';
+      const anySelected = (a.childNames || []).length > 0;
+      const creditText = c > 0
+        ? '−$'+c.toLocaleString()+' credit'
+        : anySelected ? '$0 — not billed (closed)' : 'No child selected';
+      return `<div class="abs-row">
+        <div class="abs-row-head">
+          <span class="abs-date-label">📅 ${esc(a.date||'—')}</span>
+          <span class="abs-credit">${creditText}</span>
+          <button class="pay-del" onclick="deleteAbsence(${idx}, ${a.id})">Delete</button>
+        </div>
+        <div class="abs-kids">${kidToggles}</div>
+      </div>`;
+    }).join('');
+  }
+  return addForm + `<div class="abs-list">${rows}</div>`;
+}
+
+// Delete one payment by id, then refresh every balance-aware screen and the
+// open account view so the change is reflected immediately across all tabs.
+async function deletePayment(id){
+  if(!confirm('Delete this payment? This updates the balance as if it never happened.')) return;
+  try {
+    const res = await fetch('/api/payments', {
+      method:'DELETE',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ id }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    await loadPayments();
+    refreshDerived();
+    if(openFamilyIdx != null) renderFamilyModal(openFamilyIdx);
+    showToast('Payment deleted — balances updated.');
+  } catch(e){
+    showToast('Could not delete payment: '+e.message);
+  }
+}
+
+// ════════════════ ABSENCES DATA ════════════════
+// Load every recorded absence day from the database into memory.
+async function loadAbsences(){
+  try {
+    const res = await fetch('/api/absences');
+    if(res.ok){ const data = await res.json(); absenceRecords = data.absences || []; }
+  } catch(e){ /* offline — keep whatever is in memory */ }
+}
+
+// Add (or re-open) an absence day for a family. New days start with no children
+// selected; an existing day keeps whoever is already marked absent.
+async function addAbsence(idx){
+  const f = adminRoster[idx];
+  if(!f || !f.familyCode) return;
+  const input = document.getElementById('abs-date-input');
+  const date = input ? input.value.trim() : '';
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){ showToast('Pick a date for the absence.'); return; }
+  const existing = familyAbsences(f).find(a => a.date === date);
+  await postAbsence(f.familyCode, date, existing ? existing.childNames : []);
+}
+
+// Toggle whether a single child was absent on a given day, then save the new
+// child list. The day's credit and the family's balance update accordingly.
+async function toggleAbsenceChild(idx, absId, childIdx, checked){
+  const f = adminRoster[idx];
+  if(!f) return;
+  const kid = f.children[childIdx];
+  const a = absenceRecords.find(x => x.id === absId);
+  if(!kid || !a) return;
+  const set = new Set(a.childNames || []);
+  if(checked) set.add(kid.name); else set.delete(kid.name);
+  await postAbsence(f.familyCode, a.date, [...set]);
+}
+
+// Upsert one absence day (family + date + the absent children) and refresh
+// every balance-aware screen so the change is reflected immediately.
+async function postAbsence(familyCode, date, childNames){
+  try {
+    const res = await fetch('/api/absences', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ familyCode, date, childNames }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    await loadAbsences();
+    refreshDerived();
+    if(openFamilyIdx != null) renderFamilyModal(openFamilyIdx);
+  } catch(e){
+    showToast('Could not save absence: '+e.message);
+  }
+}
+
+// Remove an absence day entirely; the family is billed for that day again.
+async function deleteAbsence(idx, absId){
+  if(!confirm('Remove this absence day? The family will be billed for it again.')) return;
+  try {
+    const res = await fetch('/api/absences', {
+      method:'DELETE',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ id: absId }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    await loadAbsences();
+    refreshDerived();
+    if(openFamilyIdx != null) renderFamilyModal(openFamilyIdx);
+    showToast('Absence removed — balances updated.');
+  } catch(e){
+    showToast('Could not remove absence: '+e.message);
+  }
+}
+
+// ════════════════ PAYMENTS DATA ════════════════
+// Load every recorded payment from the database and total them per family.
+async function loadPayments(){
+  try {
+    const res = await fetch('/api/payments');
+    if(res.ok){ const data = await res.json(); paymentRecords = data.payments || []; }
+  } catch(e){ /* offline — keep whatever is in memory */ }
+  recomputePaymentTotals();
+}
+function recomputePaymentTotals(){
+  paymentTotals.clear();
+  paymentRecords.forEach(p => {
+    if(!p.familyCode) return;
+    paymentTotals.set(p.familyCode, (paymentTotals.get(p.familyCode) || 0) + (p.amount || 0));
+  });
+}
+
+// Render the Payments tab — per-family balances after payments, and the full
+// recorded-payment history (newest first).
+function renderPayments(){
+  const sumEl = document.getElementById('payments-summary');
+  const histEl = document.getElementById('payments-history');
+  if(sumEl){
+    if(!adminRoster.length){
+      sumEl.innerHTML = '<p style="font-size:13px;color:#64748B">No families yet — import families first.</p>';
+    } else {
+      let owedT = 0, paidT = 0, balT = 0;
+      const rows = adminRoster.map(f => {
+        const owed = familyNetTuition(f), paid = familyPayments(f), bal = owed - paid;
+        owedT += owed; paidT += paid; balT += bal;
+        const balColor = bal > 0 ? '#DC2626' : bal < 0 ? '#0F766E' : '#16A34A';
+        const balTxt = bal < 0 ? '+$'+Math.abs(bal).toLocaleString()+' credit' : '$'+bal.toLocaleString();
+        return `<tr><td>${esc(famDisplayName(f))}</td><td>$${owed.toLocaleString()}</td><td>$${paid.toLocaleString()}</td><td style="color:${balColor};font-weight:700">${balTxt}</td></tr>`;
+      }).join('');
+      const balColorT = balT > 0 ? '#DC2626' : balT < 0 ? '#0F766E' : '#16A34A';
+      const balTxtT = balT < 0 ? '+$'+Math.abs(balT).toLocaleString()+' credit' : '$'+balT.toLocaleString();
+      sumEl.innerHTML = `<table>
+        <thead><tr><th>Family</th><th>Scheduled tuition</th><th>Payments received</th><th>Current balance</th></tr></thead>
+        <tbody>${rows}<tr class="sch-total-foot"><td>All families</td><td>$${owedT.toLocaleString()}</td><td>$${paidT.toLocaleString()}</td><td style="color:${balColorT}">${balTxtT}</td></tr></tbody>
+      </table>`;
+    }
+  }
+  if(histEl){
+    if(!paymentRecords.length){
+      histEl.innerHTML = '<p style="font-size:13px;color:#64748B">No payments recorded yet. Upload a payments spreadsheet above.</p>';
+    } else {
+      // Map a Family ID to its display name where we know the family.
+      const nameByCode = new Map(adminRoster.map(f => [f.familyCode, famDisplayName(f)]));
+      const rows = paymentRecords.map(p => {
+        const who = nameByCode.get(p.familyCode) || esc(p.familyCode);
+        return `<tr><td>${esc(p.date || '—')}</td><td>${esc(p.familyCode)}</td><td>${who}</td><td>${esc(p.method || '—')}</td><td>${esc(p.reference || '—')}</td><td class="price-hl">$${(p.amount||0).toLocaleString()}</td></tr>`;
+      }).join('');
+      histEl.innerHTML = `<table>
+        <thead><tr><th>Date</th><th>Family ID</th><th>Family</th><th>Method</th><th>Reference</th><th>Amount</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    }
+  }
+}
+
+// Render the Attendance tab — daycare-wide summary stats, a per-family breakdown
+// of absence days and credit, and the full absence log (newest day first). All
+// numbers come from the same absence + schedule data the per-family card uses.
+function renderAttendance(){
+  const statsEl = document.getElementById('attendance-stats');
+  const famEl = document.getElementById('attendance-by-family');
+  const logEl = document.getElementById('attendance-log');
+  if(!statsEl && !famEl && !logEl) return;
+
+  // Flatten every recorded absence into log rows we can total and display,
+  // resolving each family's display name and the day's credit where we know it.
+  const famByCode = new Map(adminRoster.map(f => [f.familyCode, f]));
+  const entries = absenceRecords.map(a => {
+    const f = famByCode.get(a.familyCode);
+    const names = a.childNames || [];
+    return {
+      date: a.date || '',
+      familyCode: a.familyCode,
+      who: f ? famDisplayName(f) : a.familyCode,
+      children: names,
+      credit: f ? absenceCredit(f, a) : 0,
+    };
+  }).sort((x, y) => (y.date || '').localeCompare(x.date || ''));
+
+  const totalDays = entries.length;
+  const totalChildDays = entries.reduce((s, e) => s + e.children.length, 0);
+  const totalCredit = entries.reduce((s, e) => s + e.credit, 0);
+  const familiesOut = new Set(entries.map(e => e.familyCode)).size;
+
+  if(statsEl){
+    statsEl.innerHTML = `
+      <div class="stat-card"><div class="stat-label">Absence days</div><div class="stat-val">${totalDays}</div><div class="stat-sub">recorded</div></div>
+      <div class="stat-card"><div class="stat-label">Child-days out</div><div class="stat-val">${totalChildDays}</div><div class="stat-sub">across all days</div></div>
+      <div class="stat-card"><div class="stat-label">Families affected</div><div class="stat-val">${familiesOut}</div><div class="stat-sub">with absences</div></div>
+      <div class="stat-card"><div class="stat-label">Credit applied</div><div class="stat-val" style="color:#0F766E">$${totalCredit.toLocaleString()}</div><div class="stat-sub">tuition credited back</div></div>`;
+  }
+
+  if(famEl){
+    if(!totalDays){
+      famEl.innerHTML = '<p style="font-size:13px;color:#64748B">No absences recorded yet. Open a family on the Families tab to record an absence day.</p>';
+    } else {
+      // One row per family that has any absences, ordered by most days out.
+      const rows = adminRoster
+        .map(f => {
+          const list = familyAbsences(f);
+          return { name: famDisplayName(f), days: list.length, credit: familyAbsenceCredit(f) };
+        })
+        .filter(r => r.days > 0)
+        .sort((a, b) => b.days - a.days || b.credit - a.credit)
+        .map(r => `<tr><td>${esc(r.name)}</td><td>${r.days}</td><td style="color:#0F766E;font-weight:700">$${r.credit.toLocaleString()}</td></tr>`)
+        .join('');
+      famEl.innerHTML = `<table>
+        <thead><tr><th>Family</th><th>Absence days</th><th>Credit</th></tr></thead>
+        <tbody>${rows}<tr class="sch-total-foot"><td>All families</td><td>${totalDays}</td><td style="color:#0F766E">$${totalCredit.toLocaleString()}</td></tr></tbody>
+      </table>`;
+    }
+  }
+
+  if(logEl){
+    if(!totalDays){
+      logEl.innerHTML = '<p style="font-size:13px;color:#64748B">No absences recorded yet.</p>';
+    } else {
+      const rows = entries.map(e => {
+        const kids = e.children.length ? e.children.map(esc).join(', ') : '<span style="color:#94A3B8">none marked</span>';
+        const creditTxt = e.credit > 0 ? '−$'+e.credit.toLocaleString() : '$0';
+        return `<tr><td>${esc(e.date || '—')}</td><td>${esc(e.who)}</td><td>${kids}</td><td style="color:#0F766E;font-weight:700">${creditTxt}</td></tr>`;
+      }).join('');
+      logEl.innerHTML = `<table>
+        <thead><tr><th>Date</th><th>Family</th><th>Children out</th><th>Credit</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    }
+  }
+}
+
+// ── Payments CSV import (append-only) ──
+const PAYMENT_COLUMNS = ['Family ID','Payment Date','Amount','Payment Method','Reference'];
+let parsedPayments = null;
+
+function downloadPaymentTemplate(){
+  const rows = [
+    PAYMENT_COLUMNS,
+    ['F-1024','2026-06-01','500','Check','#1043'],
+    ['F-1024','2026-05-01','450','Zelle','ZP-88210'],
+    ['F-1025','2026-06-01','600','Card','auth 5521'],
+  ];
+  const csv = rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+  const url = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  const a = document.createElement('a');
+  a.href = url; a.download = 'payments-template.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function rowsToPayments(rows){
+  if(!rows.length) throw new Error('The file appears to be empty.');
+  const header = rows[0].map(h=>h.trim().toLowerCase());
+  const hasHeader = header.some(h=>h.includes('family') || h.includes('amount') || h.includes('date'));
+  const idx = hasHeader ? {
+    familyId: header.findIndex(h=>h.includes('family')),
+    date:     header.findIndex(h=>h.includes('date')),
+    amount:   header.findIndex(h=>h.includes('amount') || h.includes('payment') && !h.includes('date') && !h.includes('method')),
+    method:   header.findIndex(h=>h.includes('method')),
+    reference:header.findIndex(h=>h.includes('reference') || h.includes('ref')),
+  } : { familyId:0, date:1, amount:2, method:3, reference:4 };
+  if(idx.amount < 0) idx.amount = 2;
+
+  const toMoney = v => { const n = Math.round(parseFloat(String(v).replace(/[^0-9.-]/g,''))); return Number.isFinite(n) ? n : 0; };
+  const out = [];
+  for(let r = hasHeader ? 1 : 0; r < rows.length; r++){
+    const cells = rows[r];
+    if(!cells || cells.every(c=>!String(c).trim())) continue;
+    const get = k => idx[k] >= 0 ? String(cells[idx[k]] ?? '').trim() : '';
+    const familyCode = get('familyId');
+    const amount = toMoney(get('amount'));
+    if(!familyCode || amount === 0) continue;
+    out.push({ familyCode, date: get('date'), amount, method: get('method'), reference: get('reference') });
+  }
+  if(!out.length) throw new Error('No valid payments found — each row needs a Family ID and a non-zero Amount.');
+  return out;
+}
+
+function setPayImportStatus(kind, msg){
+  const s = document.getElementById('pay-import-status');
+  s.className = 'import-status show' + (kind ? ' '+kind : '');
+  s.textContent = msg;
+}
+
+async function loadPayCsvFile(file){
+  const btn = document.getElementById('pay-import-btn');
+  parsedPayments = null; btn.disabled = true;
+  if(!file) return;
+  document.getElementById('pay-uz-text').textContent = file.name;
+  document.getElementById('pay-uz-sub').textContent = 'Ready to import';
+  try {
+    const rows = parseCSV(await file.text());
+    parsedPayments = rowsToPayments(rows);
+    const total = parsedPayments.reduce((n,p)=>n+p.amount, 0);
+    setPayImportStatus('ok', `✅ Found ${parsedPayments.length} payments totalling $${total.toLocaleString()}. Click “Import payments” to add them.`);
+    btn.disabled = false;
+  } catch(e){
+    setPayImportStatus('err', '⚠️ '+e.message);
+  }
+}
+function handlePayFilePick(input){ loadPayCsvFile(input.files && input.files[0]); }
+
+async function runPaymentImport(){
+  if(!parsedPayments) return;
+  const btn = document.getElementById('pay-import-btn');
+  btn.disabled = true;
+  setPayImportStatus('', 'Importing…');
+  try {
+    const res = await fetch('/api/payments', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ payments: parsedPayments }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    const data = await res.json();
+    setPayImportStatus('ok', `✅ Added ${data.added} payments. ${data.totalCount} payments are now on record. Balances updated across the portal.`);
+    showToast('Payments imported!');
+    parsedPayments = null;
+    document.getElementById('pay-uz-text').textContent = 'Click to choose a CSV file';
+    document.getElementById('pay-uz-sub').textContent = 'or drag & drop it here';
+    await loadPayments();
+    refreshDerived();
+  } catch(e){
+    setPayImportStatus('err', '⚠️ Import failed: '+e.message);
+    btn.disabled = false;
+  }
+}
+
+// ════════════════ CSV IMPORT ════════════════
+const IMPORT_COLUMNS = ['Family ID','Family Name','Contact Name','Email','Phone','Address','Balance','Child Name','Date of Birth','Group','Daily Rate','Start Date','Periods'];
+let parsedImport = null;
+
+function csvCell(v){
+  v = String(v==null?'':v);
+  return /[",\r\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v;
+}
+function downloadTemplate(){
+  const rows = [
+    IMPORT_COLUMNS,
+    ['F-1024','Martinez Family','Jordan Martinez','martinez@email.com','(555) 210-4492','14 Maple St, Springfield','-890','Sofia','2021-09-14','Preschool','69','2026-09-01','2026 - 2027, 2027 - 2028'],
+    ['F-1024','Martinez Family','Jordan Martinez','martinez@email.com','(555) 210-4492','14 Maple St, Springfield','-890','Diego','2018-03-22','School Age','63','2026-09-01','2026 - 2027'],
+    ['F-1025','Lee Family','Pat Lee','','(555) 904-2213','8 Oak Ave, Springfield','0','Mia','2022-01-15','Preschool','69','2026-09-08','2026 - 2027'],
+  ];
+  const csv = rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+  const url = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  const a = document.createElement('a');
+  a.href = url; a.download = 'family-data-template.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+
+// Minimal RFC-4180 CSV parser (handles quotes, escaped quotes, commas, CRLF).
+function parseCSV(text){
+  if(text.charCodeAt(0) === 0xFEFF) text = text.slice(1); // strip BOM
+  const rows = []; let row = []; let field = ''; let inQ = false;
+  for(let i=0; i<text.length; i++){
+    const c = text[i];
+    if(inQ){
+      if(c === '"'){
+        if(text[i+1] === '"'){ field += '"'; i++; }
+        else inQ = false;
+      } else field += c;
+      continue;
+    }
+    if(c === '"'){ inQ = true; }
+    else if(c === ','){ row.push(field); field = ''; }
+    else if(c === '\r'){ /* ignore */ }
+    else if(c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
+    else field += c;
+  }
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  return rows;
+}
+
+function rowsToFamilies(rows){
+  if(!rows.length) throw new Error('The file appears to be empty.');
+  // Detect a header row; otherwise assume the fixed column order from the template.
+  const header = rows[0].map(h=>h.trim().toLowerCase());
+  const hasHeader = header.some(h=>h.includes('family'));
+  const idx = hasHeader ? {
+    familyId: header.findIndex(h=>h.includes('family') && h.includes('id')),
+    family:   header.findIndex(h=>h.includes('family') && !h.includes('id')),
+    contact:  header.findIndex(h=>h.includes('contact')),
+    email:    header.findIndex(h=>h.includes('email')),
+    phone:    header.findIndex(h=>h.includes('phone')),
+    address:  header.findIndex(h=>h.includes('address')),
+    balance:  header.findIndex(h=>h.includes('balance')),
+    child:    header.findIndex(h=>h.includes('child') && h.includes('name')),
+    dob:      header.findIndex(h=>h.includes('birth') || h.includes('dob')),
+    group:    header.findIndex(h=>h.includes('group')),
+    rate:     header.findIndex(h=>h.includes('rate')),
+    startDate:header.findIndex(h=>h.includes('start')),
+    periods:  header.findIndex(h=>h.includes('period')),
+  } : { familyId:0, family:1, contact:2, email:3, phone:4, address:5, balance:6, child:7, dob:8, group:9, rate:10, startDate:11, periods:12 };
+
+  const toInt = v => parseInt(String(v).replace(/[^0-9-]/g,''), 10) || 0;
+  // A "Periods" cell may list several school years, comma- or semicolon-separated
+  // (e.g. "2025-2026, 2026-2027"); take the first 4-digit run of each as its start year.
+  const parsePeriodsCell = s => {
+    const out = [];
+    String(s||'').split(/[;,]/).forEach(tok => {
+      const m = String(tok).match(/\d{4}/);
+      if(m){ const y = parseInt(m[0],10); if(out.indexOf(y) === -1) out.push(y); }
+    });
+    return out;
+  };
+  const map = new Map();
+  for(let r = hasHeader ? 1 : 0; r < rows.length; r++){
+    const cells = rows[r];
+    if(!cells || cells.every(c=>!String(c).trim())) continue; // skip blank lines
+    const get = k => idx[k] >= 0 ? String(cells[idx[k]] ?? '').trim() : '';
+    const familyCode = get('familyId');
+    const famName = get('family');
+    if(!familyCode || !famName) continue;
+    if(!map.has(familyCode)){
+      map.set(familyCode, {
+        familyCode, name: famName, contactName: get('contact'),
+        email: get('email').toLowerCase(), phone: get('phone'),
+        address: get('address'), balance: toInt(get('balance')), children: [],
+      });
+    }
+    const childName = get('child');
+    if(childName){
+      map.get(familyCode).children.push({
+        name: childName, dob: get('dob'), group: get('group'), dailyRate: toInt(get('rate')), startDate: get('startDate'), periods: parsePeriodsCell(get('periods')),
+      });
+    }
+  }
+  const families = [...map.values()];
+  if(!families.length) throw new Error('No valid rows found — each row needs at least a Family ID and a Family Name.');
+  return families;
+}
+
+function setImportStatus(kind, msg){
+  const s = document.getElementById('import-status');
+  s.className = 'import-status show' + (kind ? ' '+kind : '');
+  s.textContent = msg;
+}
+
+async function loadCsvFile(file){
+  const btn = document.getElementById('import-btn');
+  parsedImport = null; btn.disabled = true;
+  if(!file) return;
+  document.getElementById('uz-text').textContent = file.name;
+  document.getElementById('uz-sub').textContent = 'Ready to import';
+  try {
+    const rows = parseCSV(await file.text());
+    parsedImport = rowsToFamilies(rows);
+    const kids = parsedImport.reduce((n,f)=>n+f.children.length, 0);
+    setImportStatus('ok', `✅ Found ${parsedImport.length} families and ${kids} children. Click “Import families” to save.`);
+    btn.disabled = false;
+  } catch(e){
+    setImportStatus('err', '⚠️ '+e.message);
+  }
+}
+function handleFilePick(input){ loadCsvFile(input.files && input.files[0]); }
+
+async function runImport(){
+  if(!parsedImport) return;
+  const btn = document.getElementById('import-btn');
+  btn.disabled = true;
+  setImportStatus('', 'Importing…');
+  try {
+    const res = await fetch('/api/families', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ families: parsedImport }),
+    });
+    if(!res.ok) throw new Error(await res.text() || ('HTTP '+res.status));
+    const data = await res.json();
+    setImportStatus('ok', `✅ Imported ${data.familiesCount} families and ${data.childrenCount} children. Open the Families page to see them.`);
+    showToast('Family data imported!');
+    parsedImport = null;
+    await loadFamilies();
+  } catch(e){
+    setImportStatus('err', '⚠️ Import failed: '+e.message);
+    btn.disabled = false;
+  }
+}
+
+// Drag & drop onto an upload zone.
+function initDropZone(zoneId, onFile){
+  const zone = document.getElementById(zoneId);
+  if(!zone) return;
+  ['dragenter','dragover'].forEach(ev=>zone.addEventListener(ev, e=>{ e.preventDefault(); zone.classList.add('drag'); }));
+  ['dragleave','drop'].forEach(ev=>zone.addEventListener(ev, e=>{ e.preventDefault(); zone.classList.remove('drag'); }));
+  zone.addEventListener('drop', e=>{
+    const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if(file) onFile(file);
+  });
+}
+function initUploadZone(){
+  initDropZone('upload-zone', loadCsvFile);
+  initDropZone('pay-upload-zone', loadPayCsvFile);
+}
+
+// ════════════════ SESSION RESTORE ════════════════
+window.addEventListener('DOMContentLoaded', ()=>{
+  initUploadZone();
+  const saved = localStorage.getItem('dc_session');
+  if(saved) {
+    try { currentUser = JSON.parse(saved); launchApp(); }
+    catch(e) { localStorage.removeItem('dc_session'); showLanding(); }
+  } else {
+    showLanding();
+  }
+});
+
+// Show the landing page as the first thing an unauthenticated visitor sees.
+function showLanding() {
+  document.getElementById('landing-screen').style.display='flex';
+}
+</script>
+</body>
+</html>
