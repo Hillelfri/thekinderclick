@@ -11,7 +11,7 @@ body{font-family:'Inter',sans-serif;background:#F0F4FA;color:#1E293B;min-height:
 h1,h2,h3,.logo-text{font-family:'Nunito',sans-serif}
 /* ── LANDING ── */
 #landing-screen{display:none;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100vh;text-align:center;padding:4rem 1.5rem 2.5rem;background:linear-gradient(135deg,#EFF6FF 0%,#DBEAFE 100%);position:relative;overflow:hidden}
-#landing-screen::before{content:"";position:absolute;inset:0;background:url('assets/logo-blue.png') center center/contain no-repeat;filter:blur(6px);opacity:.4;z-index:0}
+#landing-screen::before{content:"";position:absolute;inset:0;background:url('logo-blue.png') center center/contain no-repeat;filter:blur(6px);opacity:.4;z-index:0}
 .landing-inner{max-width:640px;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;flex:1;width:100%}
 .landing-inner h1{font-size:52px;color:#1E3A5F;font-weight:800;line-height:1.1}
 .landing-tag{font-size:16px;color:#2C7BE5;font-weight:700;margin-top:.5rem;letter-spacing:.02em}
@@ -302,7 +302,7 @@ tr:last-child td{border-bottom:none}
 <div id="login-screen">
   <div class="login-card">
     <div class="login-logo">
-      <img class="logo-img" src="assets/logo.png" alt="The Kinderclick Daycare logo" />
+      <img class="logo-img" src="logo.png" alt="The Kinderclick Daycare logo" />
       <h1>The Kinderclick Daycare</h1>
       <p>Family Portal — sign in to continue</p>
     </div>
@@ -325,7 +325,7 @@ tr:last-child td{border-bottom:none}
   <!-- Top bar -->
   <div class="topbar">
     <div class="topbar-left">
-      <div class="topbar-logo"><img class="topbar-logo-img" src="assets/logo.png" alt="The Kinderclick Daycare logo" /> <span>The Kinderclick</span> Daycare</div>
+      <div class="topbar-logo"><img class="topbar-logo-img" src="logo.png" alt="The Kinderclick Daycare logo" /> <span>The Kinderclick</span> Daycare</div>
       <span class="role-badge" id="role-badge"></span>
     </div>
     <div class="topbar-right">
@@ -1838,7 +1838,7 @@ function loadContractLogo(){
       resolve(contractLogoCache);
     };
     img.onerror = () => { contractLogoCache = null; resolve(contractLogoCache); };
-    img.src = 'assets/logo.png';
+    img.src = 'logo.png';
   });
 }
 
